@@ -1,17 +1,11 @@
-import { createBrowserRouter } from '@datadog/browser-rum-react/react-router-v6';
 import React from 'react';
-import { RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { useAuthContext } from 'frontend/contexts';
-import { protectedRoutes } from 'frontend/routes/protected';
-import { publicRoutes } from 'frontend/routes/public';
+import { HomePage, NotFound } from 'frontend/pages';
 
-export const AppRoutes = () => {
-  const { isUserAuthenticated } = useAuthContext();
+const router = createBrowserRouter([
+  { path: '/', element: <HomePage /> },
+  { path: '*', element: <NotFound /> },
+]);
 
-  const routes = isUserAuthenticated() ? protectedRoutes : publicRoutes;
-
-  const router = createBrowserRouter(routes);
-
-  return <RouterProvider router={router} />;
-};
+export const AppRoutes = () => <RouterProvider router={router} />;
