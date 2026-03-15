@@ -16,12 +16,12 @@ This project has three deployment environments that everyone can access:
 
 - **Preview (per PR)**
   - A temporary environment for testing the latest changes in each PR
-  - A unique URL is generated for every pull request (e.g. `https://<hash>.operate-demo.bettrsw.com`).
+  - A unique URL is generated for every pull request (e.g. `https://<hash>.preview--operate-demo.bettrsw.com`).
 
 - **Permanent Preview**
   - Always reflects the latest `main` branch.
   - Useful for ongoing testing of the integrated codebase.
-  - URL: [https://preview.operate-demo.bettrsw.com](https://preview.operate-demo.bettrsw.com)
+  - URL: [https://preview--operate-demo.bettrsw.com](https://preview--operate-demo.bettrsw.com)
 
 ## Documentation Directory
 
