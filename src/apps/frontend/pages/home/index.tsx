@@ -3,428 +3,377 @@ import React from 'react';
 const scenarios = [
   {
     id: 'support-ticket',
-    tag: 'Scenario 01',
-    title: 'Support ticket investigation',
-    situation:
-      '"Candidates from mobile aren\'t receiving confirmation emails" — a ticket filed by a recruiter.',
-    whatOperateDoes:
-      'Operate picks up the ticket, reconstructs the full request path across services, and delivers a structured finding with a proposed resolution. Your engineer reviews and approves.',
+    category: 'User-reported',
+    categoryColor: '#94a3b8',
+    borderColor: '#e2e8f0',
+    title: '"Something is broken"',
+    description:
+      'A recruiter files a ticket. Operate reconstructs the full request path, surfaces the root cause, and hands your engineer a ready-to-review finding.',
   },
   {
     id: 'silent-failure',
-    tag: 'Scenario 02',
-    title: 'Silent email delivery failure',
-    situation:
-      'Notification sends are returning 200s but candidates are not receiving interview confirmations. No alerts fired.',
-    whatOperateDoes:
-      'Operate traces the silent failure through the notification pipeline, identifies the downstream provider issue, and surfaces the root cause — without an engineer needing to open a single log.',
+    category: 'Silent failure',
+    categoryColor: '#f97316',
+    borderColor: '#fed7aa',
+    title: 'Nobody noticed — until candidates stopped showing up',
+    description:
+      'Notifications return 200s but emails never arrive. No alert fires. Operate traces the silent failure through the pipeline before a churned candidate is the first signal.',
   },
   {
-    id: 'performance-issue',
-    tag: 'Scenario 03',
-    title: 'Candidate search performance degradation',
-    situation:
-      'Search response times for recruiters have spiked. The issue is intermittent and not tied to any recent deploy.',
-    whatOperateDoes:
-      'Operate correlates slow query patterns on the applications table with index usage, identifies the degradation path, and proposes a targeted fix — in under 15 minutes.',
+    id: 'performance',
+    category: 'Performance degradation',
+    categoryColor: '#f59e0b',
+    borderColor: '#fde68a',
+    title: 'It works. Just not well enough.',
+    description:
+      'Recruiter search slows down intermittently. No recent deploy explains it. Operate correlates the slow query, identifies the degradation path, proposes a fix.',
   },
 ];
 
 const HomePage: React.FC = () => (
-  <div
-    className="min-h-screen"
-    style={{
-      fontFamily: "'Inter', sans-serif",
-      backgroundColor: '#0b1120',
-      color: '#e2e8f0',
-    }}
-  >
-    {/* Nav */}
-    <header
-      style={{
-        borderBottom: '1px solid rgba(255,255,255,0.07)',
-        backgroundColor: 'rgba(11,17,32,0.95)',
-        backdropFilter: 'blur(12px)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 50,
-      }}
-    >
-      <div
-        style={{
-          maxWidth: '1100px',
-          margin: '0 auto',
-          padding: '0 24px',
-          height: '56px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <span
-            style={{
-              fontSize: '15px',
-              fontWeight: 700,
-              letterSpacing: '-0.02em',
-              color: '#f1f5f9',
-            }}
-          >
-            Reclr
-          </span>
-          <span style={{ color: 'rgba(255,255,255,0.2)', fontSize: '13px' }}>
-            /
-          </span>
-          <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>
-            Recruitment Platform
-          </span>
-        </div>
+  <>
+    <style>{`
+      @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700&display=swap');
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)' }}>
-            Powered by
-          </span>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      html, body, #app {
+        height: 100%;
+        font-family: 'Inter', sans-serif;
+        background: #fff;
+        color: #0f172a;
+        overflow: hidden;
+      }
+
+      .shell {
+        display: flex;
+        flex-direction: column;
+        height: 100dvh;
+        overflow: hidden;
+      }
+
+      /* ── Nav ── */
+      .nav {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 40px;
+        height: 52px;
+        border-bottom: 1px solid #f1f5f9;
+      }
+      .nav-brand {
+        display: flex;
+        align-items: baseline;
+        gap: 3px;
+      }
+      .nav-wordmark {
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        color: #0f172a;
+      }
+      .nav-dot {
+        font-size: 20px;
+        font-weight: 700;
+        color: #01417f;
+        line-height: 1;
+      }
+      .nav-meta {
+        font-size: 12px;
+        color: #94a3b8;
+        margin-left: 10px;
+        font-weight: 400;
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+      }
+      .nav-powered { color: #94a3b8; }
+      .nav-operate-link {
+        color: #01417f;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 12px;
+      }
+      .nav-operate-link:hover { text-decoration: underline; }
+
+      /* ── Body split ── */
+      .body {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        overflow: hidden;
+        min-height: 0;
+      }
+
+      /* ── Left panel ── */
+      .left {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 36px 32px 32px;
+        border-right: 1px solid #f1f5f9;
+        background: #fafbfc;
+        overflow: hidden;
+      }
+
+      .left-eyebrow {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #01417f;
+        margin-bottom: 14px;
+      }
+
+      .left-heading {
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: -0.025em;
+        line-height: 1.35;
+        color: #0f172a;
+        margin-bottom: 12px;
+      }
+
+      .left-body {
+        font-size: 13px;
+        line-height: 1.65;
+        color: #64748b;
+        margin-bottom: 0;
+      }
+
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        margin-top: 24px;
+      }
+
+      .step {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+      }
+
+      .step-n {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #e2e8f0;
+        color: #475569;
+        font-size: 9px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      .step-t {
+        font-size: 12px;
+        line-height: 1.55;
+        color: #64748b;
+      }
+
+      /* ── Left bottom ── */
+      .left-footer {
+        padding-top: 20px;
+        border-top: 1px solid #e2e8f0;
+      }
+
+      .cta-hint {
+        font-size: 11px;
+        color: #94a3b8;
+        margin-bottom: 10px;
+      }
+
+      .cta-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #01417f;
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-size: 13px;
+        font-weight: 500;
+        text-decoration: none;
+        letter-spacing: -0.01em;
+        font-family: inherit;
+        cursor: pointer;
+        border: none;
+        transition: background 0.12s;
+      }
+      .cta-btn:hover { background: #01518f; }
+
+      /* ── Right panel — scenarios ── */
+      .right {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 32px 40px;
+        gap: 10px;
+        overflow: hidden;
+      }
+
+      .right-eyebrow {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #94a3b8;
+        margin-bottom: 6px;
+      }
+
+      .cards {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .card {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 16px;
+        align-items: center;
+        padding: 16px 18px;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-left-width: 3px;
+        border-radius: 8px;
+      }
+
+      .card-cat {
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+      }
+
+      .card-title {
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: -0.015em;
+        color: #0f172a;
+        margin-bottom: 5px;
+        line-height: 1.3;
+      }
+
+      .card-desc {
+        font-size: 12px;
+        line-height: 1.6;
+        color: #64748b;
+      }
+
+      .trigger-btn {
+        flex-shrink: 0;
+        padding: 6px 14px;
+        border-radius: 6px;
+        border: 1px solid #e2e8f0;
+        background: #f8fafc;
+        color: #94a3b8;
+        font-size: 12px;
+        font-weight: 500;
+        cursor: not-allowed;
+        font-family: inherit;
+        white-space: nowrap;
+      }
+    `}</style>
+
+    <div className="shell">
+      {/* Nav — mirrors bettrsw.com style */}
+      <nav className="nav">
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div className="nav-brand">
+            <span className="nav-wordmark">Reclr</span>
+            <span className="nav-dot">.</span>
+          </div>
+          <span className="nav-meta">Recruitment Platform · Operate Demo</span>
+        </div>
+        <div className="nav-right">
+          <span className="nav-powered">Powered by</span>
           <a
+            className="nav-operate-link"
             href="https://bettrsw.com/operate"
             target="_blank"
             rel="noreferrer"
-            style={{
-              fontSize: '11px',
-              fontWeight: 600,
-              color: '#4da6ff',
-              textDecoration: 'none',
-              letterSpacing: '0.01em',
-            }}
           >
-            Operate
+            Operate by Better
           </a>
         </div>
-      </div>
-    </header>
+      </nav>
 
-    {/* Hero */}
-    <section
-      style={{
-        maxWidth: '1100px',
-        margin: '0 auto',
-        padding: '96px 24px 72px',
-      }}
-    >
-      {/* Eyebrow */}
-      <p
-        style={{
-          fontSize: '10px',
-          fontWeight: 600,
-          letterSpacing: '0.15em',
-          textTransform: 'uppercase',
-          color: '#4da6ff',
-          marginBottom: '20px',
-        }}
-      >
-        Interactive Demo — Operate by Better
-      </p>
+      {/* Split body */}
+      <div className="body">
 
-      {/* Headline */}
-      <h1
-        style={{
-          fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-          fontWeight: 600,
-          letterSpacing: '-0.03em',
-          lineHeight: 1.08,
-          color: '#f1f5f9',
-          maxWidth: '780px',
-          marginBottom: '24px',
-        }}
-      >
-        Your team loses{' '}
-        <span style={{ color: '#4da6ff' }}>30–40% of engineering capacity</span>{' '}
-        to production investigation.
-      </h1>
-
-      {/* Subhead */}
-      <p
-        style={{
-          fontSize: '16px',
-          lineHeight: 1.7,
-          color: 'rgba(226,232,240,0.6)',
-          maxWidth: '560px',
-          marginBottom: '32px',
-        }}
-      >
-        This is a live demo of{' '}
-        <span style={{ color: '#e2e8f0', fontWeight: 500 }}>Reclr</span>, a
-        fictional recruitment SaaS. Use it to see how Operate — Better
-        Software&apos;s AI investigation service — handles the exact incidents
-        your engineers lose hours to every week.
-      </p>
-
-      {/* How it works callout */}
-      <div
-        style={{
-          display: 'inline-flex',
-          alignItems: 'flex-start',
-          gap: '10px',
-          backgroundColor: 'rgba(77,166,255,0.06)',
-          border: '1px solid rgba(77,166,255,0.15)',
-          borderRadius: '10px',
-          padding: '12px 16px',
-          maxWidth: '520px',
-        }}
-      >
-        <span
-          style={{
-            color: '#4da6ff',
-            fontSize: '13px',
-            marginTop: '1px',
-            flexShrink: 0,
-          }}
-        >
-          ↓
-        </span>
-        <p style={{ fontSize: '13px', color: 'rgba(226,232,240,0.55)', lineHeight: 1.6 }}>
-          Trigger a scenario below, then open the Operate dashboard to watch the
-          investigation run in real time. Your engineer reviews the finding and
-          approves — nothing ships without their sign-off.
-        </p>
-      </div>
-    </section>
-
-    {/* Divider */}
-    <div
-      style={{
-        maxWidth: '1100px',
-        margin: '0 auto',
-        padding: '0 24px',
-        borderTop: '1px solid rgba(255,255,255,0.06)',
-      }}
-    />
-
-    {/* Scenarios */}
-    <section
-      style={{
-        maxWidth: '1100px',
-        margin: '0 auto',
-        padding: '64px 24px 80px',
-      }}
-    >
-      <p
-        style={{
-          fontSize: '11px',
-          fontWeight: 600,
-          letterSpacing: '0.12em',
-          textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.3)',
-          marginBottom: '32px',
-        }}
-      >
-        Demo Scenarios
-      </p>
-
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-          gap: '16px',
-        }}
-      >
-        {scenarios.map((s) => (
-          <div
-            key={s.id}
-            style={{
-              backgroundColor: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(255,255,255,0.07)',
-              borderRadius: '12px',
-              padding: '28px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0',
-            }}
-          >
-            {/* Tag */}
-            <p
-              style={{
-                fontSize: '10px',
-                fontWeight: 600,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                color: 'rgba(77,166,255,0.6)',
-                marginBottom: '12px',
-              }}
-            >
-              {s.tag}
+        {/* Left — orientation */}
+        <aside className="left">
+          <div>
+            <p className="left-eyebrow">Interactive Demo</p>
+            <h1 className="left-heading">
+              See Operate investigate a live production incident.
+            </h1>
+            <p className="left-body">
+              Reclr is a fictional recruitment SaaS. The three scenarios on the
+              right are the exact failure patterns Operate is built to handle —
+              the ones your engineers are losing hours to right now.
             </p>
-
-            {/* Title */}
-            <h3
-              style={{
-                fontSize: '15px',
-                fontWeight: 600,
-                letterSpacing: '-0.01em',
-                color: '#f1f5f9',
-                marginBottom: '10px',
-              }}
-            >
-              {s.title}
-            </h3>
-
-            {/* Situation */}
-            <p
-              style={{
-                fontSize: '13px',
-                lineHeight: 1.65,
-                color: 'rgba(226,232,240,0.5)',
-                marginBottom: '20px',
-              }}
-            >
-              {s.situation}
-            </p>
-
-            {/* What Operate does */}
-            <div
-              style={{
-                borderTop: '1px solid rgba(255,255,255,0.06)',
-                paddingTop: '16px',
-                marginBottom: '24px',
-                flex: 1,
-              }}
-            >
-              <p
-                style={{
-                  fontSize: '10px',
-                  fontWeight: 600,
-                  letterSpacing: '0.1em',
-                  textTransform: 'uppercase',
-                  color: 'rgba(255,255,255,0.25)',
-                  marginBottom: '8px',
-                }}
-              >
-                What Operate does
-              </p>
-              <p
-                style={{
-                  fontSize: '13px',
-                  lineHeight: 1.65,
-                  color: 'rgba(226,232,240,0.45)',
-                }}
-              >
-                {s.whatOperateDoes}
-              </p>
+            <div className="steps">
+              <div className="step">
+                <span className="step-n">1</span>
+                <span className="step-t">Trigger a scenario to inject the incident into the app</span>
+              </div>
+              <div className="step">
+                <span className="step-n">2</span>
+                <span className="step-t">Open the Operate dashboard — watch context gathering, root cause analysis, and verification run in real time</span>
+              </div>
+              <div className="step">
+                <span className="step-n">3</span>
+                <span className="step-t">Review the finding and approve — nothing ships without sign-off</span>
+              </div>
             </div>
-
-            {/* CTA */}
-            <button
-              disabled
-              style={{
-                width: '100%',
-                padding: '9px 16px',
-                borderRadius: '8px',
-                border: '1px solid rgba(255,255,255,0.08)',
-                backgroundColor: 'rgba(255,255,255,0.04)',
-                color: 'rgba(255,255,255,0.2)',
-                fontSize: '13px',
-                fontWeight: 500,
-                cursor: 'not-allowed',
-                letterSpacing: '0.01em',
-              }}
-            >
-              Trigger scenario — coming soon
-            </button>
           </div>
-        ))}
+
+          <div className="left-footer">
+            <p className="cta-hint">Already triggered a scenario?</p>
+            <a className="cta-btn" href="/operate">
+              Open Operate Dashboard →
+            </a>
+          </div>
+        </aside>
+
+        {/* Right — scenario cards */}
+        <section className="right">
+          <p className="right-eyebrow">Demo Scenarios — triggers coming soon</p>
+          <div className="cards">
+            {scenarios.map((s) => (
+              <div
+                className="card"
+                key={s.id}
+                style={{ borderLeftColor: s.borderColor }}
+              >
+                <div>
+                  <p className="card-cat" style={{ color: s.categoryColor }}>
+                    {s.category}
+                  </p>
+                  <p className="card-title">{s.title}</p>
+                  <p className="card-desc">{s.description}</p>
+                </div>
+                <button disabled className="trigger-btn">
+                  Trigger
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
-    </section>
-
-    {/* Divider */}
-    <div
-      style={{
-        maxWidth: '1100px',
-        margin: '0 auto',
-        padding: '0 24px',
-        borderTop: '1px solid rgba(255,255,255,0.06)',
-      }}
-    />
-
-    {/* Footer CTA */}
-    <section
-      style={{
-        maxWidth: '1100px',
-        margin: '0 auto',
-        padding: '64px 24px 80px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '20px',
-      }}
-    >
-      <div>
-        <p
-          style={{
-            fontSize: '13px',
-            color: 'rgba(255,255,255,0.35)',
-            marginBottom: '6px',
-          }}
-        >
-          Already triggered a scenario?
-        </p>
-        <p
-          style={{
-            fontSize: '13px',
-            color: 'rgba(226,232,240,0.5)',
-            maxWidth: '440px',
-            lineHeight: 1.6,
-          }}
-        >
-          Open the Operate dashboard to watch the investigation unfold — context
-          gathering, root cause analysis, verification, proposed resolution.
-        </p>
-      </div>
-
-      <a
-        href="/operate"
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '8px',
-          backgroundColor: '#01417f',
-          color: '#ffffff',
-          padding: '10px 20px',
-          borderRadius: '8px',
-          fontSize: '13px',
-          fontWeight: 600,
-          textDecoration: 'none',
-          letterSpacing: '0.01em',
-          width: 'fit-content',
-          transition: 'background-color 0.15s',
-        }}
-        onMouseEnter={(e) =>
-          ((e.currentTarget as HTMLAnchorElement).style.backgroundColor =
-            '#01518f')
-        }
-        onMouseLeave={(e) =>
-          ((e.currentTarget as HTMLAnchorElement).style.backgroundColor =
-            '#01417f')
-        }
-      >
-        Open Operate Dashboard
-        <span style={{ opacity: 0.7 }}>→</span>
-      </a>
-
-      {/* About Operate footnote */}
-      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.2)', maxWidth: '480px', lineHeight: 1.6, marginTop: '12px' }}>
-        Operate is a service by{' '}
-        <a
-          href="https://bettrsw.com/operate"
-          target="_blank"
-          rel="noreferrer"
-          style={{ color: 'rgba(77,166,255,0.6)', textDecoration: 'none' }}
-        >
-          Better Software
-        </a>
-        {' '}that deploys custom AI investigation agents into your engineering
-        workflow — reclaiming the 30–40% of engineering capacity typically lost
-        to unplanned production debugging.
-      </p>
-    </section>
-  </div>
+    </div>
+  </>
 );
 
 export default HomePage;
