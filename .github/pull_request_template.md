@@ -1,8 +1,8 @@
 # Pull Request
 
-## Summary
+## Overview
 
-What does this PR change and why?
+What is this PR doing and why? Give enough business context so a reviewer understands the problem being solved without needing to read the code. Link to the relevant issue or ticket.
 
 ---
 
