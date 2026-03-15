@@ -1,7 +1,7 @@
 {
-  "name": "flask-react-template",
+  "name": "operate-demo",
   "version": "0.0.5",
-  "description": "Boilerplate project for React & Flask",
+  "description": "Demo application for Operate",
   "engines": {
     "npm": "10.9.2",
     "node": "22.13.1"

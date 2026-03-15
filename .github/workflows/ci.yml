@@ -218,7 +218,7 @@ jobs:
 
       - name: Build Docker image for scanning
         run: |
-          docker build -t flask-react-app:${{ steps.extract_branch.outputs.branch_hash }} .
+          docker build -t operate-demo:${{ steps.extract_branch.outputs.branch_hash }} .
 
       - name: Run Trivy scan on docker images
         id: trivy_docker
@@ -228,7 +228,7 @@ jobs:
           version: 'v0.69.2'
           args: '--skip-db-update --skip-java-db-update'
           scan-type: 'image'
-          image-ref: 'flask-react-app:${{ steps.extract_branch.outputs.branch_hash }}'
+          image-ref: 'operate-demo:${{ steps.extract_branch.outputs.branch_hash }}'
           format: 'template'
           template: '@markdown-templates/docker-markdown.tpl'
           output: 'trivy-docker-report.md'

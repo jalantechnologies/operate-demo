@@ -4,7 +4,7 @@ Boilerplate project for Flask, React & MongoDB based projects. This README docum
 
 | Build Status                                                                                                                                                                                                                         | Code Coverage                                                                                                                                                                                                                                                                                   |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [![Production Deploy](https://github.com/jalantechnologies/flask-react-template/actions/workflows/production.yml/badge.svg?branch=main)](https://github.com/jalantechnologies/flask-react-template/actions/workflows/production.yml) | [![Code Coverage](https://sonarqube.platform.bettrhq.com/api/project_badges/measure?project=jalantechnologies_flask-react-template&metric=coverage&token=a4dd71c68afbb8da4b7ed1026329bf0933298f79)](https://sonarqube.platform.bettrhq.com/dashboard?id=jalantechnologies_flask-react-template) |
+| [![Production Deploy](https://github.com/jalantechnologies/operate-demo/actions/workflows/production.yml/badge.svg?branch=main)](https://github.com/jalantechnologies/operate-demo/actions/workflows/production.yml) | [![Code Coverage](https://sonarqube.platform.bettrhq.com/api/project_badges/measure?project=jalantechnologies_operate-demo&metric=coverage&token=a4dd71c68afbb8da4b7ed1026329bf0933298f79)](https://sonarqube.platform.bettrhq.com/dashboard?id=jalantechnologies_operate-demo) |
 
 ### Environments & URLs
 
@@ -12,16 +12,16 @@ This project has three deployment environments that everyone can access:
 
 - **Production**
   - The live app for end users.
-  - Web App URL: [https://flask-react-template.platform.bettrhq.com](https://flask-react-template.platform.bettrhq.com)
+  - Web App URL: [https://operate-demo.bettrsw.com](https://operate-demo.bettrsw.com)
 
 - **Preview (per PR)**
   - A temporary environment for testing the latest changes in each PR
-  - A unique URL is generated for every pull request (e.g. `https://<github_sha>.preview.platform.bettrhq.com`).
+  - A unique URL is generated for every pull request (e.g. `https://preview--operate-demo.bettrsw.com`).
 
 - **Permanent Preview**
   - Always reflects the latest `main` branch.
   - Useful for ongoing testing of the integrated codebase.
-  - URL: [https://preview.flask-react-template.platform.bettrhq.com](https://preview.flask-react-template.platform.bettrhq.com)
+  - URL: [https://preview.operate-demo.bettrsw.com](https://preview.operate-demo.bettrsw.com)
 
 ## Documentation Directory
 

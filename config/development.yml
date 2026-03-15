@@ -2,7 +2,7 @@ logger:
   transports: ['console']
 
 mongodb:
-  uri: 'mongodb://localhost:27017/flask-react-template-dev'
+  uri: 'mongodb://localhost:27017/operate-demo-dev'
 
 celery:
   broker_url: 'redis://localhost:6379/0'
