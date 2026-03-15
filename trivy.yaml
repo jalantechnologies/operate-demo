@@ -1,3 +1,2 @@
 db:
-  skip-update: true
   skip-java-db-update: true
