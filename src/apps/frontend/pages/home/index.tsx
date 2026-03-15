@@ -12,22 +12,42 @@ const BetterHeader: React.FC = () => {
   }, []);
 
   return (
-    <header style={{
-      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-      background: '#fff',
-      borderBottom: scrolled ? '1px solid #e2e8f0' : '1px solid transparent',
-      transition: 'border-color 0.3s',
-    }}>
+    <header
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        background: '#fff',
+        borderBottom: scrolled ? '1px solid #e2e8f0' : '1px solid transparent',
+        transition: 'border-color 0.3s',
+      }}
+    >
       <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 32px' }}>
-        <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px' }}>
-
+        <nav
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            height: '64px',
+          }}
+        >
           {/* Left: Better logo + demo context */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <a href="https://bettrsw.com" target="_blank" rel="noreferrer">
-              <img src="/assets/img/better-logo-blue.png" alt="Better Software" style={{ height: '26px', width: 'auto', display: 'block' }} />
+              <img
+                src="/assets/img/better-logo-blue.png"
+                alt="Better Software"
+                style={{ height: '26px', width: 'auto', display: 'block' }}
+              />
             </a>
-            <div style={{ width: '1px', height: '20px', background: '#e2e8f0' }} />
-            <span style={{ fontSize: '13px', color: '#94a3b8' }}>Reclr · Operate Demo</span>
+            <div
+              style={{ width: '1px', height: '20px', background: '#e2e8f0' }}
+            />
+            <span style={{ fontSize: '13px', color: '#94a3b8' }}>
+              Reclr · Operate Demo
+            </span>
           </div>
 
           {/* Right: single CTA, hidden on mobile */}
@@ -36,11 +56,18 @@ const BetterHeader: React.FC = () => {
             target="_blank"
             rel="noreferrer"
             className="header-about-link"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '13px', fontWeight: 500, color: '#01417f', textDecoration: 'none' }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px',
+              fontSize: '13px',
+              fontWeight: 500,
+              color: '#01417f',
+              textDecoration: 'none',
+            }}
           >
             About Operate <span style={{ opacity: 0.6 }}>→</span>
           </a>
-
         </nav>
       </div>
     </header>
@@ -53,18 +80,38 @@ const BetterHeader: React.FC = () => {
 
 const BetterFooter: React.FC = () => (
   <footer style={{ borderTop: '1px solid #f1f5f9', padding: '24px 32px' }}>
-    <div style={{
-      maxWidth: '1280px', margin: '0 auto',
-      display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px',
-    }}>
+    <div
+      style={{
+        maxWidth: '1280px',
+        margin: '0 auto',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '12px',
+      }}
+    >
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         <a href="https://bettrsw.com" target="_blank" rel="noreferrer">
-          <img src="/assets/img/better-logo-blue.png" alt="Better Software" style={{ height: '20px', width: 'auto', display: 'block' }} />
+          <img
+            src="/assets/img/better-logo-blue.png"
+            alt="Better Software"
+            style={{ height: '20px', width: 'auto', display: 'block' }}
+          />
         </a>
         <span style={{ color: '#cbd5e1', fontSize: '13px' }}>·</span>
         <span style={{ fontSize: '13px', color: '#94a3b8' }}>
           Reclr is a demo app built on{' '}
-          <a href="https://bettrsw.com/operate" target="_blank" rel="noreferrer" style={{ color: '#64748b', textDecoration: 'none', fontWeight: 500 }}>
+          <a
+            href="https://bettrsw.com/operate"
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              color: '#64748b',
+              textDecoration: 'none',
+              fontWeight: 500,
+            }}
+          >
             Operate
           </a>
         </span>
@@ -197,30 +244,88 @@ const HomePage: React.FC = () => (
 
     <BetterHeader />
 
-    <div style={{ paddingTop: '64px', display: 'flex', flexDirection: 'column', minHeight: '100dvh' }}>
+    <div
+      style={{
+        paddingTop: '64px',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100dvh',
+      }}
+    >
       <main className="stage" style={{ flex: 1 }}>
         <div className="stage-inner">
-
           {/* Header row */}
           <div className="page-header">
             <div>
-              <p style={{ fontSize: '10px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#01417f', marginBottom: '6px' }}>
+              <p
+                style={{
+                  fontSize: '10px',
+                  fontWeight: 600,
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                  color: '#01417f',
+                  marginBottom: '6px',
+                }}
+              >
                 Interactive Demo
               </p>
-              <h1 style={{ fontSize: '22px', fontWeight: 600, letterSpacing: '-0.03em', lineHeight: 1.25, color: '#0f172a', marginBottom: '8px' }}>
+              <h1
+                style={{
+                  fontSize: '22px',
+                  fontWeight: 600,
+                  letterSpacing: '-0.03em',
+                  lineHeight: 1.25,
+                  color: '#0f172a',
+                  marginBottom: '8px',
+                }}
+              >
                 See Operate investigate a live production incident.
               </h1>
-              <p style={{ fontSize: '13px', color: '#64748b', lineHeight: 1.6, maxWidth: '480px' }}>
-                Reclr is a fictional recruitment platform — think job postings, candidate pipelines,
-                interview scheduling, and offer management. It's built here as a realistic demo app
-                so you can see Operate handle the same production failures your engineering team faces today.
+              <p
+                style={{
+                  fontSize: '13px',
+                  color: '#64748b',
+                  lineHeight: 1.6,
+                  maxWidth: '480px',
+                }}
+              >
+                Reclr is a fictional recruitment platform — think job postings,
+                candidate pipelines, interview scheduling, and offer management.
+                It's built here as a realistic demo app so you can see Operate
+                handle the same production failures your engineering team faces
+                today.
               </p>
             </div>
-            <div className="page-header-cta" style={{ flexShrink: 0, textAlign: 'right' }}>
-              <p style={{ fontSize: '11px', color: '#94a3b8', marginBottom: '8px', whiteSpace: 'nowrap' }}>Already triggered a scenario?</p>
+            <div
+              className="page-header-cta"
+              style={{ flexShrink: 0, textAlign: 'right' }}
+            >
+              <p
+                style={{
+                  fontSize: '11px',
+                  color: '#94a3b8',
+                  marginBottom: '8px',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                Already triggered a scenario?
+              </p>
               <a
                 href="/operate"
-                style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', background: '#01417f', color: '#fff', padding: '9px 18px', borderRadius: '7px', fontSize: '13px', fontWeight: 500, textDecoration: 'none', whiteSpace: 'nowrap', letterSpacing: '-0.01em' }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  background: '#01417f',
+                  color: '#fff',
+                  padding: '9px 18px',
+                  borderRadius: '7px',
+                  fontSize: '13px',
+                  fontWeight: 500,
+                  textDecoration: 'none',
+                  whiteSpace: 'nowrap',
+                  letterSpacing: '-0.01em',
+                }}
               >
                 Open Operate Dashboard →
               </a>
@@ -231,18 +336,73 @@ const HomePage: React.FC = () => (
           <div className="cards">
             {scenarios.map((s) => (
               <div className="card" key={s.id}>
-                <p style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#94a3b8', marginBottom: '7px' }}>
+                <p
+                  style={{
+                    fontSize: '9px',
+                    fontWeight: 700,
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    color: '#94a3b8',
+                    marginBottom: '7px',
+                  }}
+                >
                   {s.category}
                 </p>
-                <p style={{ fontSize: '14px', fontWeight: 600, letterSpacing: '-0.015em', lineHeight: 1.3, color: '#0f172a', marginBottom: '7px' }}>
+                <p
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    letterSpacing: '-0.015em',
+                    lineHeight: 1.3,
+                    color: '#0f172a',
+                    marginBottom: '7px',
+                  }}
+                >
                   {s.title}
                 </p>
-                <p style={{ fontSize: '12px', lineHeight: 1.65, color: '#64748b', flex: 1, marginBottom: '14px' }}>
+                <p
+                  style={{
+                    fontSize: '12px',
+                    lineHeight: 1.65,
+                    color: '#64748b',
+                    flex: 1,
+                    marginBottom: '14px',
+                  }}
+                >
                   {s.description}
                 </p>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '10px', borderTop: '1px solid #f1f5f9' }}>
-                  <span style={{ fontSize: '10px', color: '#cbd5e1', fontWeight: 500 }}>Coming soon</span>
-                  <button disabled style={{ padding: '5px 12px', borderRadius: '5px', border: '1px solid #e2e8f0', background: '#f8fafc', color: '#94a3b8', fontSize: '11px', fontWeight: 500, cursor: 'not-allowed', fontFamily: 'inherit' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    paddingTop: '10px',
+                    borderTop: '1px solid #f1f5f9',
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: '10px',
+                      color: '#cbd5e1',
+                      fontWeight: 500,
+                    }}
+                  >
+                    Coming soon
+                  </span>
+                  <button
+                    disabled
+                    style={{
+                      padding: '5px 12px',
+                      borderRadius: '5px',
+                      border: '1px solid #e2e8f0',
+                      background: '#f8fafc',
+                      color: '#94a3b8',
+                      fontSize: '11px',
+                      fontWeight: 500,
+                      cursor: 'not-allowed',
+                      fontFamily: 'inherit',
+                    }}
+                  >
                     Trigger
                   </button>
                 </div>
@@ -260,15 +420,37 @@ const HomePage: React.FC = () => (
               <React.Fragment key={i}>
                 {i > 0 && <div className="step-sep" />}
                 <div className="step-item">
-                  <span style={{ width: '17px', height: '17px', borderRadius: '50%', background: '#e2e8f0', color: '#475569', fontSize: '9px', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '1px' }}>
+                  <span
+                    style={{
+                      width: '17px',
+                      height: '17px',
+                      borderRadius: '50%',
+                      background: '#e2e8f0',
+                      color: '#475569',
+                      fontSize: '9px',
+                      fontWeight: 700,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                      marginTop: '1px',
+                    }}
+                  >
                     {i + 1}
                   </span>
-                  <span style={{ fontSize: '11px', color: '#64748b', lineHeight: 1.45 }}>{text}</span>
+                  <span
+                    style={{
+                      fontSize: '11px',
+                      color: '#64748b',
+                      lineHeight: 1.45,
+                    }}
+                  >
+                    {text}
+                  </span>
                 </div>
               </React.Fragment>
             ))}
           </div>
-
         </div>
       </main>
 
