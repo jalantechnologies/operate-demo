@@ -54,7 +54,7 @@ jobs:
         with:
           app_name: operate-demo
           app_env: preview
-          app_hostname: 'preview--operate-demo.bettrsw.com'
+          app_hostname: '{1}.operate-demo.bettrsw.com'
           branch: pr-${{ github.event.pull_request.number }}
           deploy_id: ${{ github.run_number }}
           deploy_root: app/lib/kube
