@@ -31,7 +31,10 @@ class AccessTokenUtil:
         except jwt.ExpiredSignatureError:
             raise AccessTokenExpiredError(message="Access token has expired. Please login again.")
 
-        return AccessTokenPayload(account_id=verified_token.get("account_id"))
+        account_id = verified_token.get("account_id")
+        if not isinstance(account_id, str):
+            raise AccessTokenInvalidError("Invalid access token")
+        return AccessTokenPayload(account_id=account_id)
 
     @staticmethod
     def validate_otp_for_access_token(*, otp: OTP) -> None:
