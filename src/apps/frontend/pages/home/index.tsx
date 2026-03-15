@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-// ─── Header ─────────────────────────────────────────────────────────────────
-// Spirit of bettrsw header: Better logo, minimal context, one relevant CTA.
-// "Get in Touch" and service nav removed — visitor is already here to demo.
+// ─── Header ──────────────────────────────────────────────────────────────────
 
 const BetterHeader: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -30,62 +27,22 @@ const BetterHeader: React.FC = () => {
               <img src="/assets/img/better-logo-blue.png" alt="Better Software" style={{ height: '26px', width: 'auto', display: 'block' }} />
             </a>
             <div style={{ width: '1px', height: '20px', background: '#e2e8f0' }} />
-            <span style={{ fontSize: '13px', color: '#94a3b8', fontWeight: 400 }}>
-              Reclr · Operate Demo
-            </span>
+            <span style={{ fontSize: '13px', color: '#94a3b8' }}>Reclr · Operate Demo</span>
           </div>
 
-          {/* Right: single relevant CTA */}
+          {/* Right: single CTA, hidden on mobile */}
           <a
             href="https://bettrsw.com/operate"
             target="_blank"
             rel="noreferrer"
-            className="header-cta-desktop"
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: '4px',
-              fontSize: '13px', fontWeight: 500, color: '#01417f',
-              textDecoration: 'none',
-            }}
+            className="header-about-link"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', fontSize: '13px', fontWeight: 500, color: '#01417f', textDecoration: 'none' }}
           >
             About Operate <span style={{ opacity: 0.6 }}>→</span>
           </a>
 
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="header-cta-mobile"
-            style={{ display: 'none', border: 'none', background: 'transparent', cursor: 'pointer', fontSize: '18px', color: '#0f172a', padding: '4px' }}
-            aria-label="Toggle menu"
-          >
-            {menuOpen ? '✕' : '☰'}
-          </button>
         </nav>
       </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="header-cta-mobile" style={{
-          display: 'block', position: 'fixed', top: '64px', left: 0, right: 0, bottom: 0,
-          background: '#fff', zIndex: 40, padding: '24px 32px',
-        }}>
-          <a
-            href="https://bettrsw.com/operate"
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => setMenuOpen(false)}
-            style={{ display: 'block', fontSize: '16px', fontWeight: 500, color: '#01417f', textDecoration: 'none', padding: '16px 0', borderBottom: '1px solid #e2e8f0' }}
-          >
-            About Operate →
-          </a>
-          <a
-            href="/operate"
-            onClick={() => setMenuOpen(false)}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '24px', height: '44px', borderRadius: '8px', background: '#01417f', color: '#fff', fontSize: '14px', fontWeight: 500, textDecoration: 'none' }}
-          >
-            Open Operate Dashboard →
-          </a>
-        </div>
-      )}
     </header>
   );
 };
@@ -158,13 +115,8 @@ const HomePage: React.FC = () => (
         color: #0f172a;
       }
 
-      @media (min-width: 768px) {
-        .header-cta-desktop { display: inline-flex !important; }
-        .header-cta-mobile  { display: none !important; }
-      }
       @media (max-width: 767px) {
-        .header-cta-desktop { display: none !important; }
-        .header-cta-mobile  { display: flex !important; }
+        .header-about-link { display: none !important; }
       }
 
       /* Stage: vertically centered on desktop between header and slim footer */
