@@ -3,7 +3,7 @@
   "version": "0.0.5",
   "description": "Demo application for Operate",
   "engines": {
-    "npm": "10.9.2",
+    "npm": "11.11.1",
     "node": "22.13.1"
   },
   "scripts": {
