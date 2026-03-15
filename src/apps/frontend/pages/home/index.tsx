@@ -2,31 +2,31 @@ import React from 'react';
 
 const scenarios = [
   {
-    id: 'email-failure',
-    tag: 'Scenario 01',
-    title: 'Email delivery failure',
-    situation:
-      'A notification send is returning 500s. Candidates are not receiving interview confirmations.',
-    whatOperateDoes:
-      'Operate traces the failure across the notification service, surfaces the faulting downstream dependency, and delivers a root cause finding — without a single engineer needing to open a log.',
-  },
-  {
-    id: 'search-slowdown',
-    tag: 'Scenario 02',
-    title: 'Candidate search slowdown',
-    situation:
-      'A slow query on the applications table is degrading search response times for recruiters.',
-    whatOperateDoes:
-      'Operate identifies the query, correlates it with recent schema changes, and proposes an indexed fix — in under 15 minutes.',
-  },
-  {
     id: 'support-ticket',
-    tag: 'Scenario 03',
-    title: 'Support ticket → investigation',
+    tag: 'Scenario 01',
+    title: 'Support ticket investigation',
     situation:
       '"Candidates from mobile aren\'t receiving confirmation emails" — a ticket filed by a recruiter.',
     whatOperateDoes:
-      'Operate picks up the ticket, reconstructs the full request path, and delivers a structured finding with a proposed resolution. Your engineer reviews and approves.',
+      'Operate picks up the ticket, reconstructs the full request path across services, and delivers a structured finding with a proposed resolution. Your engineer reviews and approves.',
+  },
+  {
+    id: 'silent-failure',
+    tag: 'Scenario 02',
+    title: 'Silent email delivery failure',
+    situation:
+      'Notification sends are returning 200s but candidates are not receiving interview confirmations. No alerts fired.',
+    whatOperateDoes:
+      'Operate traces the silent failure through the notification pipeline, identifies the downstream provider issue, and surfaces the root cause — without an engineer needing to open a single log.',
+  },
+  {
+    id: 'performance-issue',
+    tag: 'Scenario 03',
+    title: 'Candidate search performance degradation',
+    situation:
+      'Search response times for recruiters have spiked. The issue is intermittent and not tied to any recent deploy.',
+    whatOperateDoes:
+      'Operate correlates slow query patterns on the applications table with index usage, identifies the degradation path, and proposes a targeted fix — in under 15 minutes.',
   },
 ];
 
