@@ -42,6 +42,21 @@ jobs:
           docker_username: ${{ vars.DOCKER_USERNAME }}
           docker_password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Resolve operate image digest
+        env:
+          DOCKER_REGISTRY: ${{ vars.DOCKER_REGISTRY }}
+          DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          echo "$DOCKER_PASSWORD" | docker login "$DOCKER_REGISTRY" -u "$DOCKER_USERNAME" --password-stdin
+          OPERATE_IMAGE="$DOCKER_REGISTRY/$DOCKER_USERNAME/operate"
+          OPERATE_TAG="latest"
+          docker pull "$OPERATE_IMAGE:$OPERATE_TAG"
+          OPERATE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' "$OPERATE_IMAGE:$OPERATE_TAG" | cut -d'@' -f2)
+          echo "OPERATE_IMAGE=$OPERATE_IMAGE" >> $GITHUB_ENV
+          echo "OPERATE_TAG=$OPERATE_TAG" >> $GITHUB_ENV
+          echo "OPERATE_DIGEST=$OPERATE_DIGEST" >> $GITHUB_ENV
+
       - name: Deploy to permanent preview
         uses: ./platform/.github/actions/deploy
         with:
