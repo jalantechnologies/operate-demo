@@ -6,7 +6,6 @@ metadata:
   labels:
     app: $KUBE_APP
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: 'letsencrypt-prod'
 spec:
   ingressClassName: nginx
@@ -19,6 +18,13 @@ spec:
     - host: $KUBE_INGRESS_HOSTNAME
       http:
         paths:
+          - pathType: Prefix
+            path: '/operate'
+            backend:
+              service:
+                name: $KUBE_APP-operate-service
+                port:
+                  number: 8080
           - pathType: Prefix
             path: '/'
             backend:
