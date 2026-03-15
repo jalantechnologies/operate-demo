@@ -1,6 +1,6 @@
 {
   "name": "operate-demo",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Demo application for Operate",
   "engines": {
     "npm": "11.11.1",
