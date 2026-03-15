@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $KUBE_APP-operate-deployment
+  namespace: $KUBE_NS
+  labels:
+    app: $KUBE_APP-operate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: $KUBE_APP-operate
+  template:
+    metadata:
+      labels:
+        app: $KUBE_APP-operate
+        component: $KUBE_NS
+      annotations:
+        secrets.doppler.com/reload: 'true'
+    spec:
+      automountServiceAccountToken: false
+      # Security: Run all containers as non-root user 10001 to prevent privilege escalation
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        # Security: Enable kernel-level syscall filtering to reduce attack surface
+        seccompProfile:
+          type: RuntimeDefault
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: operate
+          image: $OPERATE_IMAGE:$OPERATE_TAG@$OPERATE_DIGEST
+          imagePullPolicy: Always
+          # Security: Block privilege escalation, make filesystem read-only, drop all capabilities
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 250m
+              memory: '400Mi'
+            limits:
+              cpu: 500m
+              memory: '800Mi'
+          ports:
+            - containerPort: 8080
+          env:
+            - name: APP_ENV
+              value: production
+            - name: PUBLIC_URL
+              value: /operate
+            - name: OPERATE_REDIS_URL
+              value: 'redis://$KUBE_APP-redis:6379/0'
+          volumeMounts:
+            # Security: Use temporary volumes for writable directories since root filesystem is read-only
+            - name: tmp
+              mountPath: /app/tmp
+            - name: logs
+              mountPath: /app/logs
+            - name: output
+              mountPath: /app/output
+            - name: system-tmp
+              mountPath: /tmp
+            - name: secret-ref
+              mountPath: /app/secrets
+          startupProbe:
+            httpGet:
+              path: /operate
+              port: 8080
+            failureThreshold: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /operate
+              port: 8080
+            initialDelaySeconds: 15
+          livenessProbe:
+            httpGet:
+              path: /operate
+              port: 8080
+            initialDelaySeconds: 30
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: logs
+          emptyDir: {}
+        - name: output
+          emptyDir: {}
+        - name: system-tmp
+          emptyDir: {}
+        - name: secret-ref
+          secret:
+            secretName: $DOPPLER_MANAGED_SECRET_NAME

@@ -19,16 +19,24 @@ This project can run either in **Docker** or **locally with Node**. Choose which
 
 ### 1. With Docker Compose
 
+operate-demo runs alongside [operate](https://github.com/jalantechnologies/operate) — nginx sits in front and routes:
+
+- `http://localhost:3000/` → operate-demo
+- `http://localhost:3000/operate` → operate
+
+Both stacks run independently. Start them in two separate terminals:
+
 ```bash
-# Build (optional) and start everything
+# Terminal 1 — start operate first
+cd jalantechnologies/operate
+docker compose -f docker-compose.dev.yml up --build
+
+# Terminal 2 — start operate-demo
+cd jalantechnologies/operate-demo
 docker compose -f docker-compose.dev.yml up --build
 ```
 
-- The full stack (frontend, backend, MongoDB, Redis, Celery workers) starts in hot‑reload mode.
-- Once the containers are healthy, visit **http://localhost:3001** in your browser.
-
-> **Note:** operate-demo uses offset ports (`3001`, `8081`, `5556`, `27018`, `6380`) so it can run alongside the
-> [operate](https://github.com/jalantechnologies/operate) repo (which uses `3000`, `8080`, etc.) without port conflicts.
+Visit **http://localhost:3000** — operate-demo is at `/` and operate is at `/operate`. Hot reload works independently on both.
 
 ### 2. Locally (npm run serve)
 
