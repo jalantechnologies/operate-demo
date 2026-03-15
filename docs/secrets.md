@@ -10,8 +10,8 @@ Secrets stored in Doppler are automatically injected into the app at runtime and
 1. **Sign in to Doppler**  
    Log in at https://dashboard.doppler.com with the [Platform team's credentials](https://teams.microsoft.com/l/entity/1c256a65-83a6-4b5c-9ccf-78f8afb6f1e8/_djb2_msteams_prefix_384094637?context=%7B%22channelId%22%3A%2219%3A08e4a50edf634281a15e27fa7ca99fef%40thread.tacv2%22%7D&tenantId=79836b2a-53cc-4854-81b4-ba2d7c9f2726).
 
-2. **Select the _flask-react-template_ project**  
-   The `flask-react-template` project centralizes secrets for the full stack (frontend + backend).
+2. **Select the _operate-demo_ project**  
+   The `operate-demo` project centralizes secrets for the full stack (frontend + backend).
 
 3. **Choose an environment**
    - **preview** – Used by PR preview builds.

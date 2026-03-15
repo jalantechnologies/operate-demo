@@ -101,10 +101,10 @@ Scale workers independently:
 
 ```bash
 # Scale preview workers
-kubectl scale deployment flask-react-template-preview-worker-deployment --replicas=5 -n flask-react-template-preview
+kubectl scale deployment operate-demo-preview-worker-deployment --replicas=5 -n operate-demo-preview
 
 # Scale production workers
-kubectl scale deployment flask-react-template-production-worker-deployment --replicas=10 -n flask-react-template-production
+kubectl scale deployment operate-demo-production-worker-deployment --replicas=10 -n operate-demo-production
 ```
 
 ### Resource Allocation
@@ -180,7 +180,7 @@ All jobs run in parallel and independently:
 
 Single job that builds Docker image and deploys:
 
-1. **cd/deploy** (~3-4 min) - Builds Docker image and deploys to `{pr-name}.preview.platform.bettrhq.com`
+1. **cd/deploy** (~3-4 min) - Builds Docker image and deploys to `{pr-name}.preview.bettrsw.com`
 
 **Note:** All CI checks are advisory and run independently. CD deploys regardless of CI status to enable fast iteration. Code merged to `main` should have passing CI checks from the PR.
 

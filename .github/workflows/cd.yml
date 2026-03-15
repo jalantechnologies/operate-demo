@@ -41,7 +41,7 @@ jobs:
         id: build
         uses: ./platform/.github/actions/build
         with:
-          app_name: flask-react-app
+          app_name: operate-demo
           tag: ${{ steps.extract_branch.outputs.branch_hash }}
           build_args: APP_ENV=preview
           context: app/.
@@ -52,9 +52,9 @@ jobs:
       - name: Deploy to preview
         uses: ./platform/.github/actions/deploy
         with:
-          app_name: flask-react-app
+          app_name: operate-demo
           app_env: preview
-          app_hostname: '{1}.preview.platform.bettrhq.com'
+          app_hostname: '{1}.preview--operate-demo.bettrsw.com'
           branch: pr-${{ github.event.pull_request.number }}
           deploy_id: ${{ github.run_number }}
           deploy_root: app/lib/kube

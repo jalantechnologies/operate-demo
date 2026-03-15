@@ -25,8 +25,10 @@ docker compose -f docker-compose.dev.yml up --build
 ```
 
 - The full stack (frontend, backend, MongoDB, Redis, Celery workers) starts in hot‑reload mode.
-- Once the containers are healthy, your browser should open automatically at **http://localhost:3000**.
-  If it doesn't, visit the URL manually.
+- Once the containers are healthy, visit **http://localhost:3001** in your browser.
+
+> **Note:** operate-demo uses offset ports (`3001`, `8081`, `5556`, `27018`, `6380`) so it can run alongside the
+> [operate](https://github.com/jalantechnologies/operate) repo (which uses `3000`, `8080`, etc.) without port conflicts.
 
 ### 2. Locally (npm run serve)
 

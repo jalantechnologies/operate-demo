@@ -330,14 +330,14 @@ Production workers use **Horizontal Pod Autoscaler (HPA)** to automatically scal
 
 ```bash
 # Watch HPA status in real-time
-kubectl get hpa -n flask-react-template-production -w
+kubectl get hpa -n operate-demo-production -w
 
 # Check HPA events and scaling decisions
-kubectl describe hpa flask-react-template-production-worker-hpa \
-  -n flask-react-template-production
+kubectl describe hpa operate-demo-production-worker-hpa \
+  -n operate-demo-production
 
 # View current metrics
-kubectl top pods -n flask-react-template-production
+kubectl top pods -n operate-demo-production
 ```
 
 **Expected scaling behavior:**
@@ -356,12 +356,12 @@ For testing or temporary overrides, workers can be scaled manually:
 
 ```bash
 # Preview environment (no HPA)
-kubectl scale deployment flask-react-template-preview-worker-deployment \
-  --replicas=5 -n flask-react-template-preview
+kubectl scale deployment operate-demo-preview-worker-deployment \
+  --replicas=5 -n operate-demo-preview
 
 # Production environment (overrides HPA temporarily)
-kubectl scale deployment flask-react-template-production-worker-deployment \
-  --replicas=10 -n flask-react-template-production
+kubectl scale deployment operate-demo-production-worker-deployment \
+  --replicas=10 -n operate-demo-production
 ```
 
 > **Note:** Manual scaling in production is temporary. HPA will eventually adjust replicas back to match the target CPU utilization.
@@ -397,15 +397,15 @@ Monitor worker resource usage:
 
 ```bash
 # Check pod resource usage
-kubectl top pods -n flask-react-template-production
+kubectl top pods -n operate-demo-production
 
 # View worker logs
-kubectl logs -f deployment/flask-react-template-production-worker-deployment \
-  -c celery-worker -n flask-react-template-production
+kubectl logs -f deployment/operate-demo-production-worker-deployment \
+  -c celery-worker -n operate-demo-production
 
 # Check Redis memory usage
-kubectl exec -it deployment/flask-react-template-production-redis-deployment \
-  -n flask-react-template-production -- redis-cli info memory
+kubectl exec -it deployment/operate-demo-production-redis-deployment \
+  -n operate-demo-production -- redis-cli info memory
 ```
 
 ## Configuration
@@ -771,19 +771,19 @@ result = job.apply_async()
 
 ```bash
 # Check worker status
-kubectl get pods -l app=flask-react-template-worker
+kubectl get pods -l app=operate-demo-worker
 
 # View worker logs
-kubectl logs -f deployment/flask-react-template-worker-deployment -c celery-worker
+kubectl logs -f deployment/operate-demo-worker-deployment -c celery-worker
 
 # View beat scheduler logs
-kubectl logs -f deployment/flask-react-template-worker-deployment -c celery-beat
+kubectl logs -f deployment/operate-demo-worker-deployment -c celery-beat
 
 # Connect to Redis
-kubectl exec -it deployment/flask-react-template-redis-deployment -- redis-cli
+kubectl exec -it deployment/operate-demo-redis-deployment -- redis-cli
 
 # Scale workers
-kubectl scale deployment flask-react-template-worker-deployment --replicas=5
+kubectl scale deployment operate-demo-worker-deployment --replicas=5
 
 # View active workers (CLI)
 celery -A celery_app inspect active

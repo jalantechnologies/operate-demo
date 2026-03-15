@@ -1,9 +1,9 @@
 {
-  "name": "flask-react-template",
+  "name": "operate-demo",
   "version": "0.0.5",
-  "description": "Boilerplate project for React & Flask",
+  "description": "Demo application for Operate",
   "engines": {
-    "npm": "10.9.2",
+    "npm": "11.11.1",
     "node": "22.13.1"
   },
   "scripts": {
@@ -34,7 +34,7 @@
     "test": "cross-env APP_ENV=testing make run-test",
     "prepare": "husky"
   },
-  "author": "jalantechnologies",
+  "author": "Jalan Technology Consulting Pvt. Ltd <developer@bettrhq.com>",
   "license": "MIT",
   "dependencies": {
     "@babel/traverse": "^7.28.5",
@@ -48,6 +48,7 @@
     "cors": "^2.8.5",
     "cpx": "^1.5.0",
     "eslint-config-prettier": "^9.1.0",
+    "flatted": "^3.4.0",
     "forever": "^4.0.3",
     "formik": "^2.4.5",
     "google-libphonenumber": "^3.2.38",

@@ -37,7 +37,7 @@ spec:
                   - key: doks.digitalocean.com/node-pool
                     operator: In
                     values:
-                      - platform-cluster-01-production-pool
+                      - operate-demo-cluster-01-production-pool
       imagePullSecrets:
         - name: regcred
       containers:

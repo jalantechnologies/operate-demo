@@ -1,7 +1,7 @@
 services:
   app:
     platform: 'linux/amd64'
-    image: 'flask-react-template'
+    image: 'operate-demo'
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,7 +9,7 @@ services:
         APP_ENV: 'development'
     environment:
       APP_ENV: 'development'
-      MONGODB_URI: 'mongodb://app-db:27017/flask-react-template-dev'
+      MONGODB_URI: 'mongodb://app-db:27017/operate-demo-dev'
       CELERY_BROKER_URL: 'redis://redis:6379/0'
       CELERY_RESULT_BACKEND: 'redis://redis:6379/0'
       PIPENV_VENV_IN_PROJECT: '1'
@@ -24,9 +24,9 @@ services:
       redis:
         condition: service_started
     ports:
-      - '3000:3000'
-      - '8080:8080'
-      - '5555:5555'
+      - '3001:3000'
+      - '8081:8080'
+      - '5556:5555'
     volumes:
       # Mount local directory to /opt/app for hot reload
       - './:/opt/app:delegated'
@@ -42,7 +42,7 @@ services:
       - '--logpath'
       - '/var/log/mongod.log'
     ports:
-      - '27017:27017'
+      - '27018:27017'
     volumes:
       - './data/mongodb:/data/db'
       - './logs/mongodb:/var/log'
@@ -50,7 +50,7 @@ services:
   redis:
     image: redis:7-alpine
     ports:
-      - '6379:6379'
+      - '6380:6379'
     volumes:
       - './data/redis:/data'
     command: redis-server --appendonly yes
