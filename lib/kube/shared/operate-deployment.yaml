@@ -30,6 +30,23 @@ spec:
           type: RuntimeDefault
       imagePullSecrets:
         - name: regcred
+      initContainers:
+        # Clone the host application repository into /data/operate/host_repo before the app starts.
+        # Skips silently if already cloned (idempotent). Credentials come from Doppler secret.
+        - name: repo-init
+          image: $OPERATE_IMAGE:$OPERATE_TAG@$OPERATE_DIGEST
+          imagePullPolicy: Always
+          command: ['/bin/sh', '/app/docker/clone-repo.sh']
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+          envFrom:
+            - secretRef:
+                name: $DOPPLER_MANAGED_SECRET_NAME
+          volumeMounts:
+            - name: repo
+              mountPath: /data/operate/host_repo
       containers:
         - name: operate
           image: $OPERATE_IMAGE:$OPERATE_TAG@$OPERATE_DIGEST
@@ -70,6 +87,8 @@ spec:
               mountPath: /tmp
             - name: secret-ref
               mountPath: /app/secrets
+            - name: repo
+              mountPath: /data/operate/host_repo
           startupProbe:
             httpGet:
               path: /operate
@@ -98,3 +117,5 @@ spec:
         - name: secret-ref
           secret:
             secretName: $DOPPLER_MANAGED_SECRET_NAME
+        - name: repo
+          emptyDir: {}
