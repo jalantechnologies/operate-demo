@@ -49,8 +49,8 @@ services:
     environment:
       APP_ENV: 'production'
       PUBLIC_URL: '/operate'
-      OPERATE_MONGODB_URI: 'mongodb://app-db:27017/operate-dev'
-      OPERATE_REDIS_URL: 'redis://redis:6379/0'
+      OPERATE_MONGODB_URI: '${OPERATE_MONGODB_URI}'
+      OPERATE_REDIS_URL: '${OPERATE_REDIS_URL}'
       OPERATE_ANTHROPIC_API_KEY: '${OPERATE_ANTHROPIC_API_KEY:-}'
       OPERATE_OPENAI_API_KEY: '${OPERATE_OPENAI_API_KEY:-}'
       OPERATE_HOST_APP_GITHUB_TOKEN: '${OPERATE_HOST_APP_GITHUB_TOKEN:-}'
