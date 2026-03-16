@@ -44,6 +44,27 @@ services:
     depends_on:
       - app
 
+  operate:
+    image: 'jalantechnologies/operate:latest'
+    environment:
+      APP_ENV: 'production'
+      PUBLIC_URL: '/operate'
+      OPERATE_MONGODB_URI: 'mongodb://app-db:27017/operate-dev'
+      OPERATE_REDIS_URL: 'redis://redis:6379/0'
+      OPERATE_ANTHROPIC_API_KEY: '${OPERATE_ANTHROPIC_API_KEY:-}'
+      OPERATE_OPENAI_API_KEY: '${OPERATE_OPENAI_API_KEY:-}'
+      OPERATE_HOST_APP_GITHUB_TOKEN: '${OPERATE_HOST_APP_GITHUB_TOKEN:-}'
+      OPERATE_HOST_APP_GITHUB_OWNER: '${OPERATE_HOST_APP_GITHUB_OWNER:-}'
+      OPERATE_HOST_APP_GITHUB_REPO: '${OPERATE_HOST_APP_GITHUB_REPO:-}'
+      OPERATE_HOST_APP_GITHUB_HOST: '${OPERATE_HOST_APP_GITHUB_HOST:-}'
+    depends_on:
+      app-db:
+        condition: service_started
+      redis:
+        condition: service_started
+    ports:
+      - '8082:8080'
+
   app-db:
     image: mongo:5.0
     ports:
