@@ -40,7 +40,7 @@ spec:
         - name: repo-init
           image: $OPERATE_IMAGE:$OPERATE_TAG@$OPERATE_DIGEST
           imagePullPolicy: Always
-          command: ['/bin/sh', '/app/docker/clone-repo.sh']
+          command: ['/bin/sh', '/app/docker/clone-host-repo.sh']
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -96,6 +96,10 @@ spec:
               value: /operate
             - name: OPERATE_REDIS_URL
               value: 'redis://$KUBE_APP-redis:6379/0'
+            # Set HOME to a writable volume so write-claude-credentials.sh can
+            # create ~/.claude/.credentials.json (root filesystem is read-only)
+            - name: HOME
+              value: /tmp/home
           volumeMounts:
             # Security: Use temporary volumes for writable directories since root filesystem is read-only
             - name: tmp
@@ -106,6 +110,8 @@ spec:
               mountPath: /app/output
             - name: system-tmp
               mountPath: /tmp
+            - name: home
+              mountPath: /tmp/home
             - name: secret-ref
               mountPath: /opt/app/secrets
             - name: repo
@@ -143,4 +149,6 @@ spec:
         - name: init-home
           emptyDir: {}
         - name: init-tmp
+          emptyDir: {}
+        - name: home
           emptyDir: {}
