@@ -17,6 +17,8 @@ spec:
         component: $KUBE_NS
       annotations:
         secrets.doppler.com/reload: 'true'
+        # CKV_K8S_35: Source control tokens (GitHub/GitLab) must be env vars for clone-host-repo.sh
+        checkov.io/skip1: "CKV_K8S_35=Source control tokens must be env vars for init container clone script"
     spec:
       automountServiceAccountToken: false
       # Security: Run all containers as non-root user 10001 to prevent privilege escalation
@@ -39,14 +41,33 @@ spec:
           command: ['/bin/sh', '/app/docker/clone-repo.sh']
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: false
+            readOnlyRootFilesystem: true
             runAsNonRoot: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 100m
+              memory: '128Mi'
+            limits:
+              cpu: 200m
+              memory: '256Mi'
+          env:
+            - name: HOME
+              value: /tmp/home
+          # checkov:skip=CKV_K8S_35: Source control tokens (GitHub/GitLab) must be injected as env vars;
+          # mounting them as files is not supported by the clone-host-repo.sh script interface.
           envFrom:
             - secretRef:
                 name: $DOPPLER_MANAGED_SECRET_NAME
           volumeMounts:
             - name: repo
               mountPath: /data/operate/host_repo
+            - name: init-home
+              mountPath: /tmp/home
+            - name: init-tmp
+              mountPath: /tmp
       containers:
         - name: operate
           image: $OPERATE_IMAGE:$OPERATE_TAG@$OPERATE_DIGEST
@@ -118,4 +139,8 @@ spec:
           secret:
             secretName: $DOPPLER_MANAGED_SECRET_NAME
         - name: repo
+          emptyDir: {}
+        - name: init-home
+          emptyDir: {}
+        - name: init-tmp
           emptyDir: {}
