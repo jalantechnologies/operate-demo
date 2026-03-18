@@ -18,7 +18,7 @@ spec:
       annotations:
         secrets.doppler.com/reload: 'true'
         # CKV_K8S_35: Source control tokens (GitHub/GitLab) must be env vars for clone-host-repo.sh
-        checkov.io/skip1: "CKV_K8S_35=Source control tokens must be env vars for init container clone script"
+        checkov.io/skip1: 'CKV_K8S_35=Source control tokens must be env vars for init container clone script'
     spec:
       automountServiceAccountToken: false
       # Security: Run all containers as non-root user 10001 to prevent privilege escalation
