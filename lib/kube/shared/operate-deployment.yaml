@@ -5,6 +5,10 @@ metadata:
   namespace: $KUBE_NS
   labels:
     app: $KUBE_APP-operate
+  annotations:
+    # CKV_K8S_35: Source control tokens (GitHub/GitLab) must be env vars;
+    # the clone-host-repo.sh script interface requires env var injection.
+    checkov.io/skip1: CKV_K8S_35=Source control tokens must be env vars for init container clone script
 spec:
   replicas: 1
   selector:
@@ -17,8 +21,6 @@ spec:
         component: $KUBE_NS
       annotations:
         secrets.doppler.com/reload: 'true'
-        # CKV_K8S_35: Source control tokens (GitHub/GitLab) must be env vars for clone-host-repo.sh
-        checkov.io/skip1: 'CKV_K8S_35=Source control tokens must be env vars for init container clone script'
     spec:
       automountServiceAccountToken: false
       # Security: Run all containers as non-root user 10001 to prevent privilege escalation
@@ -56,8 +58,6 @@ spec:
           env:
             - name: HOME
               value: /tmp/home
-          # checkov:skip=CKV_K8S_35: Source control tokens (GitHub/GitLab) must be injected as env vars;
-          # mounting them as files is not supported by the clone-host-repo.sh script interface.
           envFrom:
             - secretRef:
                 name: $DOPPLER_MANAGED_SECRET_NAME
