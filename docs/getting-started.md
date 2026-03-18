@@ -9,6 +9,14 @@
 | **MongoDB** | 8.x     | [Installation guide](https://www.mongodb.com/docs/manual/installation/) |
 | **Redis**   | 7.x     | [Installation guide](https://redis.io/docs/install/install-redis/)      |
 
+## Environment Setup
+
+operate-demo itself requires no additional environment variables for local development — docker-compose wires up MongoDB and Redis automatically.
+
+The [operate](https://github.com/jalantechnologies/operate) stack running alongside it does require its own `.env`. Before starting, set up operate's `.env` as described in the [operate Getting Started guide](https://github.com/jalantechnologies/operate/blob/main/docs/getting-started.md#environment-setup). Those variables go in `jalantechnologies/operate/.env`, not here.
+
+---
+
 ## Quickstart
 
 This project can run either in **Docker** or **locally with Node**. Choose whichever fits your workflow.

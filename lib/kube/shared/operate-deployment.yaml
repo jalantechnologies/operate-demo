@@ -5,6 +5,10 @@ metadata:
   namespace: $KUBE_NS
   labels:
     app: $KUBE_APP-operate
+  annotations:
+    # CKV_K8S_35: Source control tokens (GitHub/GitLab) must be env vars;
+    # the clone-host-repo.sh script interface requires env var injection.
+    checkov.io/skip1: CKV_K8S_35=Source control tokens must be env vars for init container clone script
 spec:
   replicas: 1
   selector:
@@ -30,6 +34,40 @@ spec:
           type: RuntimeDefault
       imagePullSecrets:
         - name: regcred
+      initContainers:
+        # Clone the host application repository into /data/operate/host_repo before the app starts.
+        # Skips silently if already cloned (idempotent). Credentials come from Doppler secret.
+        - name: repo-init
+          image: $OPERATE_IMAGE:$OPERATE_TAG@$OPERATE_DIGEST
+          imagePullPolicy: Always
+          command: ['/bin/sh', '/app/docker/clone-host-repo.sh']
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 100m
+              memory: '128Mi'
+            limits:
+              cpu: 200m
+              memory: '256Mi'
+          env:
+            - name: HOME
+              value: /tmp/home
+          envFrom:
+            - secretRef:
+                name: $DOPPLER_MANAGED_SECRET_NAME
+          volumeMounts:
+            - name: repo
+              mountPath: /data/operate/host_repo
+            - name: init-home
+              mountPath: /tmp/home
+            - name: init-tmp
+              mountPath: /tmp
       containers:
         - name: operate
           image: $OPERATE_IMAGE:$OPERATE_TAG@$OPERATE_DIGEST
@@ -58,6 +96,10 @@ spec:
               value: /operate
             - name: OPERATE_REDIS_URL
               value: 'redis://$KUBE_APP-redis:6379/0'
+            # Set HOME to a writable volume so write-claude-credentials.sh can
+            # create ~/.claude/.credentials.json (root filesystem is read-only)
+            - name: HOME
+              value: /tmp/home
           volumeMounts:
             # Security: Use temporary volumes for writable directories since root filesystem is read-only
             - name: tmp
@@ -68,8 +110,12 @@ spec:
               mountPath: /app/output
             - name: system-tmp
               mountPath: /tmp
+            - name: home
+              mountPath: /tmp/home
             - name: secret-ref
-              mountPath: /app/secrets
+              mountPath: /opt/app/secrets
+            - name: repo
+              mountPath: /data/operate/host_repo
           startupProbe:
             httpGet:
               path: /operate
@@ -98,3 +144,11 @@ spec:
         - name: secret-ref
           secret:
             secretName: $DOPPLER_MANAGED_SECRET_NAME
+        - name: repo
+          emptyDir: {}
+        - name: init-home
+          emptyDir: {}
+        - name: init-tmp
+          emptyDir: {}
+        - name: home
+          emptyDir: {}
