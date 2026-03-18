@@ -107,7 +107,7 @@ spec:
             - name: system-tmp
               mountPath: /tmp
             - name: secret-ref
-              mountPath: /app/secrets
+              mountPath: /opt/app/secrets
             - name: repo
               mountPath: /data/operate/host_repo
           startupProbe:
