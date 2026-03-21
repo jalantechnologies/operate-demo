@@ -13,6 +13,10 @@ services:
       CELERY_BROKER_URL: 'redis://redis:6379/0'
       CELERY_RESULT_BACKEND: 'redis://redis:6379/0'
       PIPENV_VENV_IN_PROJECT: '1'
+      DATADOG_API_KEY: '${DATADOG_API_KEY:-}'
+      DATADOG_APP_NAME: '${DATADOG_APP_NAME:-}'
+      DATADOG_SITE_NAME: '${DATADOG_SITE_NAME:-}'
+      DATADOG_LOG_LEVEL: '${DATADOG_LOG_LEVEL:-}'
     # Ensure dependencies are installed before starting services
     # Check if node_modules has content, not just if directory exists
     command: /bin/sh -c "([ -n \"$(ls -A node_modules 2>/dev/null)\" ] || npm install) && ([ -f .venv/bin/python ] || pipenv install --dev --python python3.12) && npm run serve"
