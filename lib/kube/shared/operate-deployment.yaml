@@ -89,6 +89,11 @@ spec:
               memory: '800Mi'
           ports:
             - containerPort: 8080
+          envFrom:
+            # Doppler operator watches envFrom references to detect secret changes
+            # and automatically restart this pod when credentials are rotated.
+            - secretRef:
+                name: $DOPPLER_MANAGED_SECRET_NAME
           env:
             - name: APP_ENV
               value: production
