@@ -15,6 +15,16 @@ operate-demo itself requires no additional environment variables for local devel
 
 The [operate](https://github.com/jalantechnologies/operate) stack running alongside it does require its own `.env`. Before starting, set up operate's `.env` as described in the [operate Getting Started guide](https://github.com/jalantechnologies/operate/blob/main/docs/getting-started.md#environment-setup). Those variables go in `jalantechnologies/operate/.env`, not here.
 
+To give operate's AI agents read-only access to operate-demo's MongoDB, add the following to `jalantechnologies/operate/.env`:
+
+```bash
+OPERATE_HOST_APP_DB_PROVIDER=mongodb
+OPERATE_HOST_APP_DB_READONLY_URI=mongodb://host.docker.internal:27018
+OPERATE_HOST_APP_DB_NAME=operate-demo-dev
+```
+
+operate-demo exposes its MongoDB on port `27018` — `host.docker.internal` lets the operate container reach it across Docker networks.
+
 ---
 
 ## Quickstart
