@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+  repository_dispatch:
+    types:
+      - operate-published
 
 # Ensures permanent preview deployment has minimal read-only permissions for security
 permissions:
@@ -12,8 +16,8 @@ permissions:
 
 jobs:
   deploy:
-    # Skip version bump commits made by github-actions[bot]
-    if: github.event.head_commit.author.name != 'github-actions[bot]'
+    # Skip version bump commits made by github-actions[bot] (only applies to push events)
+    if: github.event_name != 'push' || github.event.head_commit.author.name != 'github-actions[bot]'
     runs-on: ubuntu-latest
     concurrency:
       group: cd-permanent-preview
