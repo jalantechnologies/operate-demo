@@ -8,6 +8,8 @@ metadata:
     version: $GITHUB_SHA
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: $KUBE_APP-worker
