@@ -55,6 +55,21 @@ See [Getting Started](docs/getting-started.md) for full setup instructions inclu
 - [Bootstrapping](docs/bootstrapping.md)
 - [Running Scripts in Production](docs/running-scripts-in-production.md)
 
+## Operate configuration
+
+Operate is deployed alongside this application to investigate production incidents.
+
+### Log provider (Datadog)
+
+| Variable | Description |
+| -------- | ----------- |
+| `OPERATE_HOST_APP_DATADOG_API_KEY` | Datadog API key with `logs_read_data` and `logs_read_index_data` scopes |
+| `OPERATE_HOST_APP_DATADOG_APP_KEY` | Datadog Application key with `logs_read_data` and `logs_read_index_data` scopes |
+| `OPERATE_HOST_APP_DATADOG_SITE` | Datadog site (e.g. `us5.datadoghq.com`) |
+| `OPERATE_HOST_APP_DATADOG_SERVICE` | Service name as it appears in Datadog logs (e.g. `operate-demo-production`) |
+
+Use a dedicated restricted key for Operate rather than reusing the existing Datadog key, so permissions stay minimal.
+
 ## Best Practices
 
 Head over to the [Engineering Handbook](https://github.com/jalantechnologies/handbook/blob/main/engineering/index.md) for the best practices we follow at Better Software.
