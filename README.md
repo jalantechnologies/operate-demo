@@ -38,7 +38,7 @@ doppler secrets download --project operate-demo --config preview --no-file --for
   | grep "^OPERATE_" > .env
 ```
 
-> **Need Doppler access?** Ask your team lead to add you to the `operate-demo` project in Doppler.
+> **Need Doppler access?** Ping the `#platform` channel to get added to the `operate-demo` project in Doppler.
 
 The key variables operate needs (all go in `operate/.env`):
 
