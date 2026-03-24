@@ -1,44 +1,63 @@
 # Operate Demo
 
-Demo application for [Operate](https://github.com/jalantechnologies/operate) — the staff-facing tool that automates engineering operations investigation. operate-demo is a sample client app showing how Operate integrates alongside a real application.
+A sample web application that runs alongside [Operate](https://github.com/jalantechnologies/operate) — an AI agent that automatically investigates engineering incidents (errors, regressions, support tickets) and surfaces findings for engineer review.
 
-| Build Status                                                                                                                                                                                                         | Code Coverage                                                                                                                                                                                                                                                                   |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+operate-demo exists to demonstrate and test the Operate integration. Think of it as a real app you'd deploy Operate next to.
+
+| Build Status | Code Coverage |
+| ------------ | ------------- |
 | [![Production Deploy](https://github.com/jalantechnologies/operate-demo/actions/workflows/production.yml/badge.svg?branch=main)](https://github.com/jalantechnologies/operate-demo/actions/workflows/production.yml) | [![Code Coverage](https://sonarqube.platform.bettrhq.com/api/project_badges/measure?project=jalantechnologies_operate-demo&metric=coverage&token=a4dd71c68afbb8da4b7ed1026329bf0933298f79)](https://sonarqube.platform.bettrhq.com/dashboard?id=jalantechnologies_operate-demo) |
-
-## What it does
-
-- Demonstrates operate running alongside a client app, accessible at `/operate` via nginx
-- operate runs as its own standalone stack — operate-demo proxies `/operate` traffic to it
-- Local dev: two independent stacks in two terminals; prod/preview: ingress routes `/operate` to the operate Kubernetes service
 
 ## Environments
 
-| Environment       | URL                                                                            | Description            |
-| ----------------- | ------------------------------------------------------------------------------ | ---------------------- |
-| Production        | [operate-demo.bettrsw.com](https://operate-demo.bettrsw.com)                   | Live app               |
+| Environment | URL | Description |
+| ----------- | --- | ----------- |
+| Production | [operate-demo.bettrsw.com](https://operate-demo.bettrsw.com) | Live app |
 | Permanent Preview | [preview--operate-demo.bettrsw.com](https://preview--operate-demo.bettrsw.com) | Always reflects `main` |
-| PR Preview        | `https://<hash>.preview--operate-demo.bettrsw.com`                             | Per-PR environment     |
+| PR Preview | `https://<hash>.preview--operate-demo.bettrsw.com` | Per-PR environment |
 
-## Local development
+## Getting started
 
-Both repos must be cloned as siblings:
+Both repos must be cloned as siblings inside the same parent folder:
 
 ```
 jalantechnologies/
-  operate/        ← clone from https://github.com/jalantechnologies/operate
+  operate/        ← git clone https://github.com/jalantechnologies/operate
   operate-demo/   ← this repo
 ```
 
+### 1. Set up Operate's environment
+
+operate-demo itself needs no extra env vars. Operate does — follow the [Operate Getting Started guide](https://github.com/jalantechnologies/operate#getting-started) to create `jalantechnologies/operate/.env`.
+
+When configuring Operate to point at operate-demo, use these values:
+
 ```bash
+OPERATE_HOST_APP_GITHUB_OWNER=jalantechnologies
+OPERATE_HOST_APP_GITHUB_REPO=operate-demo
+OPERATE_HOST_APP_DB_PROVIDER=mongodb
+OPERATE_HOST_APP_DB_READONLY_URI=mongodb://host.docker.internal:27018  # operate-demo exposes MongoDB on 27018
+OPERATE_HOST_APP_DB_NAME=operate-demo-dev
+```
+
+### 2. Start both stacks
+
+```bash
+# Terminal 1 — start Operate first
+cd jalantechnologies/operate
+docker compose -f docker-compose.dev.yml up --build
+
+# Terminal 2 — start operate-demo
+cd jalantechnologies/operate-demo
 docker compose -f docker-compose.dev.yml up --build
 ```
 
-- **operate-demo + operate:** http://localhost:3000
-- **operate at:** http://localhost:3000/operate
-- Changes to either codebase are reflected immediately via hot reload.
+Once both are running:
 
-See [Getting Started](docs/getting-started.md) for full setup instructions including worktree support.
+- **operate-demo:** http://localhost:3000
+- **Operate (AI agent UI):** http://localhost:3000/operate
+
+Changes to either codebase are reflected immediately via hot reload.
 
 ## Documentation
 
