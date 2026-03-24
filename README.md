@@ -59,6 +59,31 @@ See [Getting Started](docs/getting-started.md) for full setup instructions inclu
 
 Operate is deployed alongside this application to investigate production incidents.
 
+### Core
+
+| Variable | Description |
+| -------- | ----------- |
+| `OPERATE_JWT_SECRET` | Secret key for signing Operate JWTs |
+| `OPERATE_MONGODB_URI` | MongoDB connection URI for Operate's own database |
+| `OPERATE_CLAUDE_CODE_CREDENTIALS` | Claude AI OAuth credentials JSON |
+| `OPERATE_CLAUDE_CODE_MODEL` | Claude model ID to use (e.g. `claude-sonnet-4-6`) |
+
+### Source control (GitHub)
+
+| Variable | Description |
+| -------- | ----------- |
+| `OPERATE_HOST_APP_GITHUB_TOKEN` | GitHub personal access token with repo read access |
+| `OPERATE_HOST_APP_GITHUB_OWNER` | GitHub organisation or user owning the repo (e.g. `jalantechnologies`) |
+| `OPERATE_HOST_APP_GITHUB_REPO` | GitHub repository name (e.g. `operate-demo`) |
+
+### Database provider (MongoDB)
+
+| Variable | Description |
+| -------- | ----------- |
+| `OPERATE_HOST_APP_DB_PROVIDER` | Database provider type (e.g. `mongodb`) |
+| `OPERATE_HOST_APP_DB_READONLY_URI` | Read-only connection URI for the host app's database |
+| `OPERATE_HOST_APP_DB_NAME` | Database name (e.g. `operate-demo-production`) |
+
 ### Log provider (Datadog)
 
 | Variable | Description |
