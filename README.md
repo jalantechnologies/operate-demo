@@ -28,34 +28,17 @@ jalantechnologies/
 
 ### 1. Set up Operate's environment
 
-operate-demo itself needs no extra env vars. Operate does — it needs credentials to connect to Claude, GitHub, the database, and Datadog.
+operate-demo itself needs no extra env vars. Operate does — follow the [Operate Getting Started guide](https://github.com/jalantechnologies/operate#getting-started) to create `jalantechnologies/operate/.env`.
 
-Operate's env goes in `jalantechnologies/operate/.env`. The easiest way to get real values is to copy them from the preview environment in Doppler:
+When configuring Operate to point at operate-demo, use these values:
 
 ```bash
-cd jalantechnologies/operate
-doppler secrets download --project operate-demo --config preview --no-file --format env \
-  | grep "^OPERATE_" > .env
+OPERATE_HOST_APP_GITHUB_OWNER=jalantechnologies
+OPERATE_HOST_APP_GITHUB_REPO=operate-demo
+OPERATE_HOST_APP_DB_PROVIDER=mongodb
+OPERATE_HOST_APP_DB_READONLY_URI=mongodb://host.docker.internal:27018  # operate-demo exposes MongoDB on 27018
+OPERATE_HOST_APP_DB_NAME=operate-demo-dev
 ```
-
-> **Need Doppler access?** Ping the `#platform` channel to get added to the `operate-demo` project in Doppler.
-
-The key variables operate needs (all go in `operate/.env`):
-
-| Variable | How to get it |
-| -------- | ------------- |
-| `OPERATE_CLAUDE_CODE_CREDENTIALS` | On macOS: `security find-generic-password -s "Claude Code-credentials" -w` |
-| `OPERATE_CLAUDE_CODE_MODEL` | Use `claude-sonnet-4-6` (default) |
-| `OPERATE_HOST_APP_GITHUB_TOKEN` | Create a GitHub PAT with `repo` and `read:org` scopes |
-| `OPERATE_HOST_APP_GITHUB_OWNER` | `jalantechnologies` |
-| `OPERATE_HOST_APP_GITHUB_REPO` | `operate-demo` |
-| `OPERATE_HOST_APP_DB_PROVIDER` | `mongodb` |
-| `OPERATE_HOST_APP_DB_READONLY_URI` | `mongodb://host.docker.internal:27018` (operate-demo exposes MongoDB on 27018) |
-| `OPERATE_HOST_APP_DB_NAME` | `operate-demo-dev` |
-| `OPERATE_HOST_APP_DATADOG_*` | Copy from Doppler preview (see above) |
-| `OPERATE_MONGODB_URI` / `OPERATE_REDIS_URL` | Already set by docker-compose — no action needed |
-
-See [operate's Getting Started guide](https://github.com/jalantechnologies/operate/blob/main/docs/getting-started.md#environment-setup) for the full variable reference.
 
 ### 2. Start both stacks
 
