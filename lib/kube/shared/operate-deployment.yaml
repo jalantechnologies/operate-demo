@@ -93,10 +93,6 @@ spec:
             - secretRef:
                 name: $DOPPLER_MANAGED_SECRET_NAME
           env:
-            - name: APP_ENV
-              value: production
-            - name: PUBLIC_URL
-              value: /operate
             - name: OPERATE_REDIS_URL
               value: 'redis://$KUBE_APP-redis:6379/0'
             # Set HOME to a writable volume so write-claude-credentials.sh can
