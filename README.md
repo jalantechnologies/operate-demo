@@ -4,17 +4,17 @@ A sample web application that runs alongside [Operate](https://github.com/jalant
 
 operate-demo exists to demonstrate and test the Operate integration. Think of it as a real app you'd deploy Operate next to.
 
-| Build Status | Code Coverage |
-| ------------ | ------------- |
+| Build Status                                                                                                                                                                                                         | Code Coverage                                                                                                                                                                                                                                                                   |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [![Production Deploy](https://github.com/jalantechnologies/operate-demo/actions/workflows/production.yml/badge.svg?branch=main)](https://github.com/jalantechnologies/operate-demo/actions/workflows/production.yml) | [![Code Coverage](https://sonarqube.platform.bettrhq.com/api/project_badges/measure?project=jalantechnologies_operate-demo&metric=coverage&token=a4dd71c68afbb8da4b7ed1026329bf0933298f79)](https://sonarqube.platform.bettrhq.com/dashboard?id=jalantechnologies_operate-demo) |
 
 ## Environments
 
-| Environment | URL | Description |
-| ----------- | --- | ----------- |
-| Production | [operate-demo.bettrsw.com](https://operate-demo.bettrsw.com) | Live app |
+| Environment       | URL                                                                            | Description            |
+| ----------------- | ------------------------------------------------------------------------------ | ---------------------- |
+| Production        | [operate-demo.bettrsw.com](https://operate-demo.bettrsw.com)                   | Live app               |
 | Permanent Preview | [preview--operate-demo.bettrsw.com](https://preview--operate-demo.bettrsw.com) | Always reflects `main` |
-| PR Preview | `https://<hash>.preview--operate-demo.bettrsw.com` | Per-PR environment |
+| PR Preview        | `https://<hash>.preview--operate-demo.bettrsw.com`                             | Per-PR environment     |
 
 ## Getting started
 
