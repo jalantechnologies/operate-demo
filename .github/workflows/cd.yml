@@ -50,10 +50,8 @@ jobs:
           docker_password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Resolve operate image digest
-        env:
-          DOCKER_USERNAME: ${{ vars.DOCKER_USERNAME }}
         run: |
-          OPERATE_IMAGE="$DOCKER_USERNAME/operate"
+          OPERATE_IMAGE="jalantechnologies/operate"
           OPERATE_TAG="latest"
           docker pull "$OPERATE_IMAGE:$OPERATE_TAG"
           OPERATE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' "$OPERATE_IMAGE:$OPERATE_TAG" | cut -d'@' -f2)
