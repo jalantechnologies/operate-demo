@@ -32,8 +32,6 @@ spec:
         # Security: Enable kernel-level syscall filtering to reduce attack surface
         seccompProfile:
           type: RuntimeDefault
-      imagePullSecrets:
-        - name: regcred
       initContainers:
         # Clone the host application repository into /data/operate/host_repo before the app starts.
         # Skips silently if already cloned (idempotent). Credentials come from Doppler secret.
