@@ -95,7 +95,7 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
                 color: '#0f172a',
               }}
             >
-              Nobody noticed — until it was too late
+              Emails drop. No alert fires.
             </h2>
           </div>
           <button
@@ -136,14 +136,13 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
                 marginBottom: '6px',
               }}
             >
-              What happens when you trigger this
+              The scenario
             </p>
             <p style={{ fontSize: '13px', lineHeight: 1.7, color: '#475569' }}>
-              Reclr's notification pipeline sends a candidate email — the SMTP relay
-              accepts it with a 200 OK, but the message is silently dropped before
-              delivery. No alert fires. The candidate never hears back. This is the
-              kind of failure that only surfaces when a recruiter notices a churned
-              pipeline weeks later.
+              Reclr's email pipeline returns <code style={{ fontSize: '12px', background: '#f1f5f9', padding: '1px 5px', borderRadius: '3px', color: '#0f172a' }}>200 OK</code> but
+              silently drops the message before delivery. The candidate never hears back.
+              No alert fires. Your on-call never wakes up. The only signal is a recruiter
+              noticing a dead pipeline days later.
             </p>
           </div>
 
@@ -159,13 +158,13 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
                 marginBottom: '6px',
               }}
             >
-              What Operate does next
+              What Operate does
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {[
-                'The error is logged to Datadog. Operate\'s log monitor detects it and fires a webhook.',
-                'Operate automatically creates a case and begins investigating — reading logs, tracing the request path, and correlating signals.',
-                'Within minutes, a finding lands in the Operate dashboard with root cause and a suggested fix, ready for your engineer to review and approve.',
+                'Detects the error in Datadog logs and opens a case automatically — no ticket, no manual triage.',
+                'Reads the request path, correlates log signals, and identifies where the message was dropped.',
+                'Surfaces a finding with root cause and a suggested fix. Your engineer reviews and approves — nothing ships without sign-off.',
               ].map((text, i) => (
                 <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
                   <span
@@ -239,7 +238,7 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
           {state === 'done' ? (
             <>
               <span style={{ fontSize: '12px', color: '#16a34a', fontWeight: 500 }}>
-                ✓ Scenario triggered — Operate is investigating
+                ✓ Failure injected — Operate is on it
               </span>
               <a
                 href="/operate"

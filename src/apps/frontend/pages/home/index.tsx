@@ -128,26 +128,26 @@ type ScenarioDef = {
 const scenarios: ScenarioDef[] = [
   {
     id: 'support-ticket',
-    category: 'User-reported',
-    title: '"Something is broken"',
+    category: 'User-reported error',
+    title: 'Bug report lands in your inbox',
     description:
-      'A recruiter files a ticket. Operate reconstructs the full request path, surfaces the root cause, and hands your engineer a ready-to-review finding.',
+      'A recruiter says something is broken. Operate reads the ticket, traces the request, finds the root cause, and hands your engineer a diff-ready finding.',
     enabled: false,
   },
   {
     id: 'silent-failure',
     category: 'Silent failure',
-    title: 'Nobody noticed — until it was too late',
+    title: 'Emails drop. No alert fires.',
     description:
-      'Sends return 200s but candidates never receive emails. No alert fires. Operate traces the silent failure before a churned candidate is the only signal.',
+      'Your API returns 200 but candidates never hear back. No one notices for days. Trigger this to inject the failure and see Operate catch what your monitors missed.',
     enabled: true,
   },
   {
     id: 'performance',
-    category: 'Performance degradation',
-    title: 'It works. Just not well enough.',
+    category: 'Performance regression',
+    title: 'Search got slow. Nobody knows why.',
     description:
-      'Recruiter search slows intermittently, unlinked to any deploy. Operate identifies the slow query path and proposes a targeted fix in under 15 minutes.',
+      'Recruiter search degrades intermittently with no linked deploy. Operate identifies the slow query and proposes a targeted fix.',
     enabled: false,
   },
 ];
@@ -273,7 +273,7 @@ const HomePage: React.FC = () => {
                     marginBottom: '6px',
                   }}
                 >
-                  Interactive Demo
+                  Live Demo
                 </p>
                 <h1
                   style={{
@@ -285,7 +285,7 @@ const HomePage: React.FC = () => {
                     marginBottom: '8px',
                   }}
                 >
-                  See Operate investigate a live production incident.
+                  Trigger a real incident. Watch Operate fix it.
                 </h1>
                 <p
                   style={{
@@ -295,11 +295,10 @@ const HomePage: React.FC = () => {
                     maxWidth: '480px',
                   }}
                 >
-                  Reclr is a fictional recruitment platform — think job postings,
-                  candidate pipelines, interview scheduling, and offer management.
-                  It's built here as a realistic demo app so you can see Operate
-                  handle the same production failures your engineering team faces
-                  today.
+                  Reclr is a fictional recruitment app running a live backend.
+                  Pick a scenario below to inject a real production failure —
+                  then watch Operate detect it, investigate, and surface a
+                  finding for engineer review. No setup. Takes about 2 minutes.
                 </p>
               </div>
               <div
