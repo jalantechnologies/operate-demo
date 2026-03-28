@@ -1,4 +1,4 @@
-import random
+import secrets
 import uuid
 
 from modules.logger.logger import Logger
@@ -51,7 +51,7 @@ class ScenarioService:
 
     @staticmethod
     def _trigger_silent_failure() -> TriggerScenarioResult:
-        template = random.choice(_SILENT_FAILURE_MESSAGES)
+        template = secrets.choice(_SILENT_FAILURE_MESSAGES)
         message = template.format(
             job_id=f"job_{uuid.uuid4().hex[:8]}",
             user_id=f"user_{uuid.uuid4().hex[:8]}",
