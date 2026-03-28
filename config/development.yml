@@ -1,5 +1,5 @@
 logger:
-  transports: ['console']
+  transports: ['console', 'datadog']
 
 mongodb:
   uri: 'mongodb://localhost:27017/operate-demo-dev'

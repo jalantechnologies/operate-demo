@@ -26,21 +26,39 @@ jalantechnologies/
   operate-demo/   ← this repo
 ```
 
-### 1. Set up Operate's environment
+### 1. Set up operate-demo's environment
 
-operate-demo itself needs no extra env vars. Operate does — follow the [Operate Getting Started guide](https://github.com/jalantechnologies/operate#getting-started) to create `jalantechnologies/operate/.env`.
+The fastest way is to pull values from the preview environment in Doppler:
 
-When configuring Operate to point at operate-demo, use these values:
+```bash
+doppler secrets download --project operate-demo --config preview --no-file --format env \
+  | grep -v "^OPERATE_" > .env
+```
+
+> **Need Doppler access?** Ping the `#platform` channel to get added to the `operate-demo` project.
+
+This gives you the Datadog keys needed for local log shipping. No other env vars are required for operate-demo itself.
+
+### 2. Set up Operate's environment
+
+Follow the [Operate Getting Started guide](https://github.com/jalantechnologies/operate#getting-started) to create `jalantechnologies/operate/.env`.
+
+The Operate README covers all required vars. The operate-demo-specific overrides to add:
 
 ```bash
 OPERATE_HOST_APP_GITHUB_OWNER=jalantechnologies
 OPERATE_HOST_APP_GITHUB_REPO=operate-demo
 OPERATE_HOST_APP_DB_PROVIDER=mongodb
-OPERATE_HOST_APP_DB_READONLY_URI=mongodb://host.docker.internal:27018  # operate-demo exposes MongoDB on 27018
+OPERATE_HOST_APP_DB_READONLY_URI=mongodb://host.docker.internal:27018
 OPERATE_HOST_APP_DB_NAME=operate-demo-dev
+
+# Required for Operate to register its Datadog webhook.
+# Datadog must reach this URL, so localhost won't work.
+# Run: ngrok http 3000 (or use pinggy.io) → set the public URL here.
+OPERATE_HOST_APP_PUBLIC_URI=<your-tunnel-url>
 ```
 
-### 2. Start both stacks
+### 3. Start both stacks
 
 ```bash
 # Terminal 1 — start Operate first
