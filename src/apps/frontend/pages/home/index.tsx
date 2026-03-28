@@ -179,14 +179,12 @@ const HomePage: React.FC = () => {
         }
 
         .stage {
-          min-height: calc(100dvh - 64px - 65px);
           display: flex;
-          align-items: center;
           justify-content: center;
-          padding: 48px 32px;
+          padding: 48px 32px 64px;
         }
         @media (max-width: 767px) {
-          .stage { padding: 32px 20px 48px; align-items: flex-start; }
+          .stage { padding: 32px 20px 48px; }
         }
 
         .stage-inner {
@@ -196,10 +194,10 @@ const HomePage: React.FC = () => {
 
         .page-header {
           display: flex;
-          align-items: flex-end;
+          align-items: flex-start;
           justify-content: space-between;
           gap: 24px;
-          margin-bottom: 20px;
+          margin-bottom: 24px;
         }
         @media (max-width: 699px) {
           .page-header { flex-direction: column; align-items: flex-start; gap: 16px; }
@@ -276,51 +274,37 @@ const HomePage: React.FC = () => {
                     letterSpacing: '0.12em',
                     textTransform: 'uppercase',
                     color: '#01417f',
-                    marginBottom: '6px',
-                  }}
-                >
-                  Live Demo
-                </p>
-                <h1
-                  style={{
-                    fontSize: '22px',
-                    fontWeight: 600,
-                    letterSpacing: '-0.03em',
-                    lineHeight: 1.25,
-                    color: '#0f172a',
                     marginBottom: '8px',
                   }}
                 >
-                  Trigger a real incident. Watch Operate fix it.
+                  Operate · Interactive Demo
+                </p>
+                <h1
+                  style={{
+                    fontSize: '26px',
+                    fontWeight: 700,
+                    letterSpacing: '-0.03em',
+                    lineHeight: 1.2,
+                    color: '#0f172a',
+                    marginBottom: '10px',
+                    maxWidth: '520px',
+                  }}
+                >
+                  Your AI engineer that fixes production bugs on its own.
                 </h1>
                 <p
                   style={{
                     fontSize: '13px',
                     color: '#64748b',
-                    lineHeight: 1.6,
-                    maxWidth: '480px',
+                    lineHeight: 1.65,
+                    maxWidth: '460px',
+                    marginBottom: '20px',
                   }}
                 >
-                  Reclr is a fictional recruitment app running a live backend.
-                  Pick a scenario below to inject a real production failure —
-                  then watch Operate detect it, investigate, and raise a PR with
-                  the fix for engineer approval. No setup. Takes about 2
-                  minutes.
-                </p>
-              </div>
-              <div
-                className="page-header-cta"
-                style={{ flexShrink: 0, textAlign: 'right' }}
-              >
-                <p
-                  style={{
-                    fontSize: '11px',
-                    color: '#94a3b8',
-                    marginBottom: '8px',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  Already triggered a scenario?
+                  Operate watches your logs, detects incidents, traces the root
+                  cause, and raises a fix PR — without anyone filing a ticket.
+                  Trigger one of the scenarios below to see it happen live on
+                  Reclr, a fictional recruitment app running a real backend.
                 </p>
                 <a
                   href="/operate"
@@ -342,6 +326,10 @@ const HomePage: React.FC = () => {
                   Open Operate Dashboard →
                 </a>
               </div>
+              <div
+                className="page-header-cta"
+                style={{ flexShrink: 0, textAlign: 'right', paddingTop: '4px' }}
+              />
             </div>
 
             {/* Scenario cards */}
