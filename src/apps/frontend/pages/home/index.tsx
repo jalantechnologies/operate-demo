@@ -77,9 +77,10 @@ const HomePage: React.FC = () => {
               Engineering teams spend 30–40% of their time on unplanned investigation. Operate fixes that.
             </h1>
             <p className="mb-10 text-lg leading-relaxed text-slate-500">
-              Operate monitors logs in your cloud provider and responds to user
-              reports. When something goes wrong — spotted proactively or
-              reported via Slack — it traces the root cause and raises a fix PR.
+              Operate proactively monitors application health and responds to
+              inbound reports. When something goes wrong — detected
+              automatically or reported by the team — it traces the root cause
+              and raises a fix PR.
             </p>
 
             {/* How it works */}
@@ -190,7 +191,7 @@ const HomePage: React.FC = () => {
                       Trigger scenario →
                     </button>
                   ) : (
-                    <span className="text-sm text-slate-300">Coming soon</span>
+                    <span className="text-sm font-medium text-slate-400">Coming soon</span>
                   )}
                 </div>
               </div>
