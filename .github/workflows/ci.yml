@@ -78,13 +78,26 @@ jobs:
           ref: ${{ steps.ci_version.outputs.version }}
 
       - name: Run SonarQube analysis
+        id: sonar_analysis
         uses: ./platform/.github/actions/analyze
+        continue-on-error: true
         with:
           sonar_host_url: ${{ vars.SONAR_HOST_URL }}
           sonar_token: ${{ secrets.SONAR_TOKEN }}
           branch: ${{ github.head_ref }}
           branch_base: main
           pull_request_number: ${{ github.event.number }}
+
+      - name: Fetch quality gate details
+        if: steps.sonar_analysis.outcome == 'failure'
+        run: |
+          curl -s -u "${{ secrets.SONAR_TOKEN }}:" \
+            "${{ vars.SONAR_HOST_URL }}/api/qualitygates/project_status?projectKey=jalantechnologies_flask-react-template&pullRequest=${{ github.event.number }}" \
+            | python3 -m json.tool || true
+
+      - name: Fail if SonarQube analysis failed
+        if: steps.sonar_analysis.outcome == 'failure'
+        run: exit 1
 
   scan:
     if: github.event.pull_request.state == 'open' && github.event.pull_request.draft == false
