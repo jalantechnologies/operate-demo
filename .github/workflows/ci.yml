@@ -46,12 +46,20 @@ jobs:
 
   sonarqube:
     if: github.event.pull_request.state == 'open' && github.event.pull_request.draft == false
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           fetch-depth: 0
+
+      - name: Download coverage report
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: coverage-report
+          path: output
+        continue-on-error: true
 
       - name: Get github-ci version
         id: ci_version
@@ -279,6 +287,14 @@ jobs:
             docker compose -f docker-compose.test.yml cp app:/app/output/coverage.xml output/coverage.xml || echo "coverage.xml not found in app container"
           fi
 
+      - name: Fix coverage report paths for SonarQube
+        if: always()
+        run: |
+          if [ -f output/coverage.xml ]; then
+            sed -i 's|/app/||g' output/coverage.xml
+            echo "Coverage paths fixed for SonarQube"
+          fi
+
       - name: Validate coverage excludes test files
         run: |
           if [ -f output/coverage.xml ]; then
@@ -315,3 +331,12 @@ jobs:
         with:
           recreate: true
           path: code-coverage-results.md
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b
+        with:
+          name: coverage-report
+          path: output/coverage.xml
+          if-no-files-found: ignore
+          retention-days: 1
