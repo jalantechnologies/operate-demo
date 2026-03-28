@@ -21,17 +21,8 @@ const scenarios: ScenarioDef[] = [
     type: 'Example scenario',
     title: 'Errors are appearing in logs. Nobody has noticed yet.',
     description:
-      'Operate continuously monitors application and system logs. When errors surface — even ones that return 200 — it traces the root cause and raises a fix PR before anyone files a ticket.',
+      'Operate continuously monitors application and system logs. When errors surface — even ones that return 200 — it traces the root cause and raises a resolution before anyone files a ticket.',
     enabled: true,
-  },
-  {
-    id: 'support-ticket',
-    category: 'User-reported bug',
-    type: 'Example scenario',
-    title: 'A user can\'t log in. The bug sits in the queue for days.',
-    description:
-      'A user reports they can\'t sign in. It sits in the queue. Engineering finds out days later. Operate reads the ticket, traces the failing request, and opens a fix PR — before anyone schedules a call.',
-    enabled: false,
   },
   {
     id: 'performance',
@@ -40,6 +31,15 @@ const scenarios: ScenarioDef[] = [
     title: 'Slow requests are piling up in logs. Users are dropping off.',
     description:
       'Slow requests and long database queries accumulate in logs — but nobody connects the dots. Operate profiles the request path, identifies the bottleneck, and raises a resolution for engineer review.',
+    enabled: false,
+  },
+  {
+    id: 'support-ticket',
+    category: 'User-reported bug',
+    type: 'Example scenario',
+    title: 'A user can\'t log in. The bug sits in the queue for days.',
+    description:
+      'A user reports they can\'t sign in. It sits in the queue. Engineering finds out days later. Operate reads the ticket, traces the failing request, and raises a resolution — before anyone schedules a call.',
     enabled: false,
   },
 ];
@@ -137,7 +137,9 @@ const HomePage: React.FC = () => {
             </p>
             <a
               href="/operate"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-[#01417f] px-4 py-2.5 text-sm font-medium text-white no-underline hover:opacity-90"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 no-underline hover:border-slate-300 hover:text-slate-900"
             >
               Open Operate Dashboard →
             </a>
@@ -184,7 +186,7 @@ const HomePage: React.FC = () => {
                   {s.enabled ? (
                     <button
                       onClick={() => setActiveModal(s.id)}
-                      className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition-all hover:border-[#01417f] hover:text-[#01417f]"
+                      className="inline-flex cursor-pointer items-center gap-2 rounded-lg bg-[#01417f] px-4 py-2.5 text-sm font-medium text-white transition-all hover:opacity-90"
                     >
                       Trigger scenario →
                     </button>
