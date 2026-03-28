@@ -73,9 +73,9 @@ const HomePage: React.FC = () => {
               Your engineers spend 30–40% of their time on unplanned investigation. Operate fixes that.
             </h1>
             <p className="mb-10 text-lg leading-relaxed text-slate-500">
-              Pick a production incident. Operate detects it, traces the root
-              cause, and raises a fix PR — without anyone filing a ticket or
-              scheduling a call.
+              Operate works across any production issue — silent failures, user
+              complaints, performance regressions, and more. Try one of the
+              example scenarios to see it in action.
             </p>
 
             {/* How it works */}
