@@ -15,27 +15,27 @@ type ScenarioDef = {
 
 const scenarios: ScenarioDef[] = [
   {
-    id: 'support-ticket',
-    category: 'Error in production',
-    title: 'Users report a bug. Your team finds out days later.',
-    description:
-      'A user files a ticket. It sits in the queue. Engineering picks it up Friday. Operate reads the ticket, traces the failing request, and opens a fix PR — before anyone schedules a war room.',
-    enabled: false,
-  },
-  {
     id: 'silent-failure',
-    category: 'Error in production',
-    title: 'Something is broken. No alert fired. Nobody knows.',
+    category: 'Silent failure',
+    title: 'Emails are being sent. Users are not receiving them.',
     description:
-      'Consider a hypothetical: your software sends interview invites — but they never arrive. The API returns success. No alert fires. A recruiter notices days later. Operate catches the failure in your logs and raises a fix PR.',
+      'Your notification service logs success. The user never gets the email. No error, no alert — just silence. Operate detects the drop in your logs, traces the root cause, and raises a fix PR.',
     enabled: true,
   },
   {
-    id: 'performance',
-    category: 'Error in production',
-    title: 'The app feels slow. Users are dropping off.',
+    id: 'support-ticket',
+    category: 'User-reported bug',
+    title: 'Users can\'t log in. They\'re filing tickets.',
     description:
-      'No error, no alert — just a degraded experience that nobody pinned down. Operate correlates the slowdown to a specific bottleneck and opens a PR with the fix.',
+      'A user reports they can\'t sign in. It sits in the queue. Engineering finds out days later. Operate reads the ticket, traces the failing request, and opens a fix PR — before your team schedules a call.',
+    enabled: false,
+  },
+  {
+    id: 'performance',
+    category: 'Performance regression',
+    title: 'A page takes 8 seconds to load. Users are leaving.',
+    description:
+      'No error, no alert — just a slow experience that nobody pinned down. Users drop off. Operate correlates the latency spike to a specific bottleneck and opens a PR with the fix.',
     enabled: false,
   },
 ];
@@ -70,11 +70,12 @@ const HomePage: React.FC = () => {
               Interactive Demo
             </p>
             <h1 className="mb-6 text-5xl font-bold leading-[1.08] tracking-[-0.04em] text-slate-900">
-              See Operate fix a production bug — live.
+              Your engineers spend 30–40% of their time on unplanned investigation. Operate fixes that.
             </h1>
             <p className="mb-10 text-lg leading-relaxed text-slate-500">
-              Pick a scenario. Operate detects the incident, investigates, and
-              raises a fix PR — autonomously.
+              Pick a production incident below. Operate detects it, traces the
+              root cause, and raises a fix PR — without anyone filing a ticket
+              or scheduling a call.
             </p>
 
             {/* How it works */}
@@ -82,18 +83,18 @@ const HomePage: React.FC = () => {
               {[
                 {
                   n: '1',
-                  label: 'Trigger a scenario',
-                  sub: 'Inject a real incident into the demo app',
+                  label: 'Trigger an incident',
+                  sub: 'Inject a real production failure into the demo app',
                 },
                 {
                   n: '2',
                   label: 'Operate investigates',
-                  sub: 'Detects, traces root cause, raises a fix PR',
+                  sub: 'Signal to root cause to fix PR — automatically',
                 },
                 {
                   n: '3',
-                  label: 'You approve',
-                  sub: 'Nothing merges without engineer sign-off',
+                  label: 'Engineer approves',
+                  sub: 'You decide what ships. Nothing merges without sign-off.',
                 },
               ].map(({ n, label, sub }) => (
                 <div key={n} className="flex items-start gap-4">

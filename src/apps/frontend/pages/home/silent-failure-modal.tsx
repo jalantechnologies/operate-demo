@@ -50,7 +50,7 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
               Silent failure
             </p>
             <h2 className="text-[17px] font-semibold leading-snug tracking-tight text-slate-900">
-              Interview invites are going out. Candidates are not receiving them.
+              Emails are being sent. Users are not receiving them.
             </h2>
           </div>
           <button
@@ -66,20 +66,20 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
           {/* The scenario */}
           <div>
             <p className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-              Hypothetical scenario
+              The scenario
             </p>
             <p className="text-[13px] leading-relaxed text-slate-500">
-              Imagine a hiring tool where{' '}
+              Your app calls{' '}
               <code className="rounded bg-slate-100 px-1 py-px text-[12px] text-slate-800">
                 POST /notifications/send
               </code>{' '}
+              — a password reset, an order confirmation, a welcome email. It
               returns{' '}
               <code className="rounded bg-slate-100 px-1 py-px text-[12px] text-slate-800">
                 200 OK
               </code>
-              . The SMTP relay accepts the envelope. But the email never lands.
-              Candidates never hear back. No alert fires. A recruiter notices
-              days later that their pipeline went quiet.
+              . The user never receives it. No error is logged, no alert fires.
+              The user raises a ticket days later — or just churns.
             </p>
           </div>
 
@@ -90,9 +90,9 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
             </p>
             <div className="flex flex-col gap-2">
               {[
-                'Spots the silent drop in Datadog logs — delivery_status=deferred, no retry scheduled — and opens a case automatically.',
-                'Traces the request path: SMTP accepted the envelope, bounce record written 4 s later, notification status never updated.',
-                'Raises a fix PR. Your engineer reviews the diff and approves — nothing merges without sign-off.',
+                'Detects the silent failure in your Datadog logs — no manual triage, no ticket needed — and opens a case.',
+                'Traces the full request path to find exactly where the notification was dropped and why.',
+                'Raises a fix PR. Your engineer reviews and approves — nothing merges without sign-off.',
               ].map((text, i) => (
                 <div key={i} className="flex items-start gap-2.5">
                   <span className="mt-0.5 flex size-[18px] shrink-0 items-center justify-center rounded-full bg-slate-200 text-[9px] font-bold text-slate-500">
