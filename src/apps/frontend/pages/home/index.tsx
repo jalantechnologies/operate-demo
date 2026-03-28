@@ -17,25 +17,25 @@ const scenarios: ScenarioDef[] = [
   {
     id: 'support-ticket',
     category: 'User-reported bug',
-    title: 'App is broken — user filed a ticket',
+    title: '"Candidates aren\'t getting interview invites" — recruiter filed a ticket.',
     description:
-      "A user can't complete checkout. Operate reads the ticket, traces the failing request, and raises a fix PR — before your engineer finishes reading the Slack thread.",
+      'A recruiter noticed it Monday. Engineering finds out Friday. Operate reads the ticket, traces the broken notification path, and opens a fix PR — same day.',
     enabled: false,
   },
   {
     id: 'silent-failure',
     category: 'Silent failure',
-    title: 'System is failing. Nobody knows.',
+    title: 'Interview invites are going out. Candidates are not receiving them.',
     description:
-      'Candidate emails are dropped. The API returns 200 so no alert fires. Operate detects the failure in your logs, traces the cause, and raises a fix PR before it becomes a complaint.',
+      'The API returns 200. The SMTP relay accepts the envelope. But the email never lands. No alert fires, no one notices — until a recruiter asks why their pipeline went quiet. Operate catches the silent drop in logs and raises a fix PR.',
     enabled: true,
   },
   {
     id: 'performance',
     category: 'Performance regression',
-    title: 'Users are frustrated. App feels slow.',
+    title: 'Candidate search takes 8 seconds. Recruiters are switching tabs.',
     description:
-      "Search spikes under load. Users notice, engineers don't. Operate correlates the slowdown to a specific query, identifies the bottleneck, and proposes a fix.",
+      'No error, no alert — just a slow query under load that nobody pinned down. Operate correlates the latency spike to a missing index, and opens a PR with the fix.',
     enabled: false,
   },
 ];
@@ -112,18 +112,7 @@ const HomePage: React.FC = () => {
           </div>
 
           {/* Footer */}
-          <div className="mt-12 flex items-center justify-between">
-            <span className="text-[12px] text-slate-400">
-              Built on{' '}
-              <a
-                href="https://bettrsw.com/operate"
-                target="_blank"
-                rel="noreferrer"
-                className="font-medium text-slate-500 no-underline hover:text-slate-700"
-              >
-                Operate
-              </a>
-            </span>
+          <div className="mt-12">
             <a
               href="https://bettrsw.com/operate"
               target="_blank"
