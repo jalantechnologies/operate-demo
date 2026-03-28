@@ -139,24 +139,24 @@ const HomePage: React.FC = () => {
         <div className="flex flex-1 flex-col px-8 py-10 lg:overflow-y-auto lg:px-12 lg:py-16">
           {/* Top bar */}
           <div className="mb-10 flex items-center justify-between">
-            <p className="text-[13px] font-medium text-slate-400">
+            <p className="text-sm font-medium text-slate-400">
               Choose a scenario to trigger
             </p>
             <a
               href="/operate"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-[#01417f] px-4 py-2 text-[13px] font-medium text-white no-underline hover:opacity-90"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-[#01417f] px-4 py-2.5 text-sm font-medium text-white no-underline hover:opacity-90"
             >
               Open Operate Dashboard →
             </a>
           </div>
 
           {/* Scenario cards */}
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-5">
             {scenarios.map((s) => (
               <div
                 key={s.id}
                 className={clsx(
-                  'group rounded-2xl border bg-white p-6 transition-all duration-200',
+                  'group rounded-2xl border bg-white p-7 transition-all duration-200',
                   s.enabled
                     ? 'border-slate-200 shadow-sm hover:border-slate-300 hover:shadow-md'
                     : 'border-slate-100 opacity-60',
@@ -164,21 +164,21 @@ const HomePage: React.FC = () => {
               >
                 <div className="mb-4 flex items-start justify-between gap-4">
                   <div>
-                    <p className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                    <p className="mb-2 text-xs font-bold uppercase tracking-widest text-slate-400">
                       {s.category}
                     </p>
-                    <h2 className="text-[17px] font-semibold leading-snug tracking-tight text-slate-900">
+                    <h2 className="text-xl font-semibold leading-snug tracking-tight text-slate-900">
                       {s.title}
                     </h2>
                   </div>
                   {s.enabled && (
-                    <span className="shrink-0 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-600">
+                    <span className="shrink-0 rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider text-emerald-600">
                       Live
                     </span>
                   )}
                 </div>
 
-                <p className="mb-5 text-[13px] leading-relaxed text-slate-500">
+                <p className="mb-6 text-[15px] leading-relaxed text-slate-500">
                   {s.description}
                 </p>
 
@@ -186,14 +186,12 @@ const HomePage: React.FC = () => {
                   {s.enabled ? (
                     <button
                       onClick={() => setActiveModal(s.id)}
-                      className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-[13px] font-medium text-slate-700 transition-all hover:border-[#01417f] hover:text-[#01417f]"
+                      className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 transition-all hover:border-[#01417f] hover:text-[#01417f]"
                     >
                       Trigger scenario →
                     </button>
                   ) : (
-                    <span className="text-[12px] text-slate-300">
-                      Coming soon
-                    </span>
+                    <span className="text-sm text-slate-300">Coming soon</span>
                   )}
                 </div>
               </div>
