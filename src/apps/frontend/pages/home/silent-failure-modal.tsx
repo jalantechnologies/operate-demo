@@ -164,7 +164,7 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
               {[
                 'Detects the error in Datadog logs and opens a case automatically — no ticket, no manual triage.',
                 'Reads the request path, correlates log signals, and identifies where the message was dropped.',
-                'Surfaces a finding with root cause and a suggested fix. Your engineer reviews and approves — nothing ships without sign-off.',
+                'Raises a PR with the fix directly in your repo. Your engineer reviews and approves — nothing ships without sign-off.',
               ].map((text, i) => (
                 <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
                   <span

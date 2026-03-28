@@ -139,7 +139,7 @@ const scenarios: ScenarioDef[] = [
     category: 'Silent failure',
     title: 'Emails drop. No alert fires.',
     description:
-      'Your API returns 200 but candidates never hear back. No one notices for days. Trigger this to inject the failure and see Operate catch what your monitors missed.',
+      'Reclr\'s email pipeline returns 200 OK but candidates never hear back. No monitor catches it. Operate detects the silent failure, traces the cause, and raises a fix PR — before anyone files a ticket.',
     enabled: true,
   },
   {
@@ -297,8 +297,8 @@ const HomePage: React.FC = () => {
                 >
                   Reclr is a fictional recruitment app running a live backend.
                   Pick a scenario below to inject a real production failure —
-                  then watch Operate detect it, investigate, and surface a
-                  finding for engineer review. No setup. Takes about 2 minutes.
+                  then watch Operate detect it, investigate, and raise a PR with
+                  the fix for engineer approval. No setup. Takes about 2 minutes.
                 </p>
               </div>
               <div
