@@ -16,26 +16,26 @@ type ScenarioDef = {
 const scenarios: ScenarioDef[] = [
   {
     id: 'support-ticket',
-    category: 'User-reported bug',
-    title: '"Candidates aren\'t getting interview invites" — recruiter filed a ticket.',
+    category: 'Error in production',
+    title: 'Users report a bug. Your team finds out days later.',
     description:
-      'A recruiter noticed it Monday. Engineering finds out Friday. Operate reads the ticket, traces the broken notification path, and opens a fix PR — same day.',
+      'A user files a ticket. It sits in the queue. Engineering picks it up Friday. Operate reads the ticket, traces the failing request, and opens a fix PR — before anyone schedules a war room.',
     enabled: false,
   },
   {
     id: 'silent-failure',
-    category: 'Silent failure',
-    title: 'Interview invites are going out. Candidates are not receiving them.',
+    category: 'Error in production',
+    title: 'Something is broken. No alert fired. Nobody knows.',
     description:
-      'The API returns 200. The SMTP relay accepts the envelope. But the email never lands. No alert fires, no one notices — until a recruiter asks why their pipeline went quiet. Operate catches the silent drop in logs and raises a fix PR.',
+      'Consider a hypothetical: your software sends interview invites — but they never arrive. The API returns success. No alert fires. A recruiter notices days later. Operate catches the failure in your logs and raises a fix PR.',
     enabled: true,
   },
   {
     id: 'performance',
-    category: 'Performance regression',
-    title: 'Candidate search takes 8 seconds. Recruiters are switching tabs.',
+    category: 'Error in production',
+    title: 'The app feels slow. Users are dropping off.',
     description:
-      'No error, no alert — just a slow query under load that nobody pinned down. Operate correlates the latency spike to a missing index, and opens a PR with the fix.',
+      'No error, no alert — just a degraded experience that nobody pinned down. Operate correlates the slowdown to a specific bottleneck and opens a PR with the fix.',
     enabled: false,
   },
 ];
