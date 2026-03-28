@@ -94,10 +94,10 @@ jobs:
           curl -s -u "${{ secrets.SONAR_TOKEN }}:" \
             "${{ vars.SONAR_HOST_URL }}/api/qualitygates/project_status?projectKey=jalantechnologies_flask-react-template&pullRequest=${{ github.event.number }}" \
             | python3 -m json.tool || true
-          echo "--- Issues (bugs/code smells in new code) ---"
+          echo "--- New Bugs and Code Smells in PR ---"
           curl -s -u "${{ secrets.SONAR_TOKEN }}:" \
-            "${{ vars.SONAR_HOST_URL }}/api/issues/search?projectKeys=jalantechnologies_flask-react-template&pullRequest=${{ github.event.number }}&types=BUG,CODE_SMELL&sinceLeakPeriod=true&ps=20" \
-            | python3 -m json.tool || true
+            "${{ vars.SONAR_HOST_URL }}/api/issues/search?componentKeys=jalantechnologies_flask-react-template&pullRequest=${{ github.event.number }}&types=BUG,CODE_SMELL&ps=20" \
+            | python3 -c "import sys,json; d=json.load(sys.stdin); [print(i.get('rule'),i.get('severity'),i.get('component'),i.get('line'),i.get('message')) for i in d.get('issues',[])]" || true
 
       - name: Fail if SonarQube analysis failed
         if: steps.sonar_analysis.outcome == 'failure'
