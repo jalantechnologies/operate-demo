@@ -66,19 +66,19 @@ const HomePage: React.FC = () => {
             </a>
 
             {/* Heading */}
-            <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-slate-400">
+            <p className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-400">
               Interactive Demo
             </p>
-            <h1 className="mb-5 text-[38px] font-bold leading-[1.1] tracking-[-0.04em] text-slate-900">
+            <h1 className="mb-6 text-5xl font-bold leading-[1.08] tracking-[-0.04em] text-slate-900">
               See Operate fix a production bug — live.
             </h1>
-            <p className="mb-8 max-w-[340px] text-[15px] leading-relaxed text-slate-500">
+            <p className="mb-10 text-lg leading-relaxed text-slate-500">
               Pick a scenario. Operate detects the incident, investigates, and
-              raises a fix PR in your repo — autonomously.
+              raises a fix PR — autonomously.
             </p>
 
             {/* How it works */}
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-6">
               {[
                 {
                   n: '1',
@@ -96,15 +96,15 @@ const HomePage: React.FC = () => {
                   sub: 'Nothing merges without engineer sign-off',
                 },
               ].map(({ n, label, sub }) => (
-                <div key={n} className="flex items-start gap-3.5">
-                  <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-white text-[11px] font-bold text-slate-500 shadow-sm ring-1 ring-slate-200">
+                <div key={n} className="flex items-start gap-4">
+                  <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-white text-sm font-bold text-slate-500 shadow-sm ring-1 ring-slate-200">
                     {n}
                   </span>
                   <div>
-                    <p className="text-[13px] font-semibold text-slate-700">
+                    <p className="text-base font-semibold text-slate-800">
                       {label}
                     </p>
-                    <p className="text-[12px] text-slate-400">{sub}</p>
+                    <p className="text-sm text-slate-400">{sub}</p>
                   </div>
                 </div>
               ))}
