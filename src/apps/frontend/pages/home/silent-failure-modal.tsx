@@ -265,7 +265,7 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
               )}
               {state !== 'error' && <span />}
               <button
-                onClick={trigger}
+                onClick={() => { trigger().catch(() => undefined); }}
                 disabled={state === 'loading'}
                 style={{
                   padding: '7px 18px',
@@ -281,7 +281,9 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
                   whiteSpace: 'nowrap',
                 }}
               >
-                {state === 'loading' ? 'Triggering…' : state === 'error' ? 'Retry' : 'Trigger scenario'}
+                {state === 'loading' && 'Triggering…'}
+                {state === 'error' && 'Retry'}
+                {state !== 'loading' && state !== 'error' && 'Trigger scenario'}
               </button>
             </>
           )}

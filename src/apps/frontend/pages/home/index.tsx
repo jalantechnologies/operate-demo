@@ -118,11 +118,11 @@ const BetterFooter: React.FC = () => (
 // ─── Scenarios ───────────────────────────────────────────────────────────────
 
 type ScenarioDef = {
-  id: string;
   category: string;
-  title: string;
   description: string;
   enabled: boolean;
+  id: string;
+  title: string;
 };
 
 const scenarios: ScenarioDef[] = [
