@@ -58,7 +58,7 @@ const HomePage: React.FC = () => {
       {/* ── Full-height two-column layout ── */}
       <div className="flex min-h-dvh flex-col lg:flex-row">
         {/* ── LEFT PANEL ─────────────────────────────────────────────────── */}
-        <div className="flex flex-col justify-between bg-[#f8f9fb] px-10 py-10 lg:sticky lg:top-0 lg:h-dvh lg:w-[42%] lg:px-14 lg:py-16">
+        <div className="flex flex-col justify-between bg-[#f8f9fb] p-10 lg:sticky lg:top-0 lg:h-dvh lg:w-[42%] lg:px-14 lg:py-16">
           {/* Logo */}
           <div>
             <a href="https://bettrsw.com" target="_blank" rel="noreferrer">

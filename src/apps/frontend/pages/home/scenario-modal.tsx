@@ -146,7 +146,11 @@ const ScenarioModal: React.FC<ScenarioModalProps> = ({ onClose }) => {
                 <span />
               )}
               <button
-                onClick={() => void trigger()}
+                onClick={() => {
+                  trigger().catch(() => {
+                    // error state is handled inside trigger()
+                  });
+                }}
                 disabled={state === 'loading'}
                 className={clsx(
                   'rounded-lg px-4 py-2 text-[12px] font-medium transition-colors',
