@@ -87,7 +87,7 @@ const ScenarioModal: React.FC<ScenarioModalProps> = ({ onClose }) => {
                 'Traces the root cause: which service, which line, which condition caused the failure.',
                 'Takes it to resolution — a fix PR, a data correction, or added logging if more signal is needed. The engineer reviews and approves.',
               ].map((text, i) => (
-                <div key={i} className="flex items-start gap-2.5">
+                <div key={text} className="flex items-start gap-2.5">
                   <span className="mt-0.5 flex size-[18px] shrink-0 items-center justify-center rounded-full bg-slate-200 text-[9px] font-bold text-slate-500">
                     {i + 1}
                   </span>
@@ -146,9 +146,7 @@ const ScenarioModal: React.FC<ScenarioModalProps> = ({ onClose }) => {
                 <span />
               )}
               <button
-                onClick={() => {
-                  trigger().catch(() => undefined);
-                }}
+                onClick={() => void trigger()}
                 disabled={state === 'loading'}
                 className={clsx(
                   'rounded-lg px-4 py-2 text-[12px] font-medium transition-colors',
