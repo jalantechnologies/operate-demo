@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import React, { useState } from 'react';
 
-import SilentFailureModal from 'frontend/pages/home/silent-failure-modal';
+import ScenarioModal from 'frontend/pages/home/scenario-modal';
 
 // ─── Scenarios ───────────────────────────────────────────────────────────────
 
@@ -52,7 +52,7 @@ const HomePage: React.FC = () => {
   return (
     <div className="min-h-dvh bg-white font-sans text-slate-900 antialiased">
       {activeModal === 'silent-failure' && (
-        <SilentFailureModal onClose={() => setActiveModal(null)} />
+        <ScenarioModal onClose={() => setActiveModal(null)} />
       )}
 
       {/* ── Full-height two-column layout ── */}

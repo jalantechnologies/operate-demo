@@ -23,8 +23,8 @@ class ScenarioView(MethodView):
 
         try:
             scenario_id = ScenarioId(scenario_id_raw)
-        except ValueError:
-            raise ScenarioNotFoundError(scenario_id=scenario_id_raw)
+        except ValueError as e:
+            raise ScenarioNotFoundError(scenario_id=scenario_id_raw) from e
 
         params = TriggerScenarioParams(scenario_id=scenario_id)
         result = ScenarioService.trigger_scenario(params=params)

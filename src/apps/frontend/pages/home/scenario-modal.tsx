@@ -3,11 +3,11 @@ import React, { useEffect, useState } from 'react';
 
 type TriggerState = 'idle' | 'loading' | 'done' | 'error';
 
-type SilentFailureModalProps = {
+type ScenarioModalProps = {
   onClose: () => void;
 };
 
-const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
+const ScenarioModal: React.FC<ScenarioModalProps> = ({ onClose }) => {
   const [state, setState] = useState<TriggerState>('idle');
 
   useEffect(() => {
@@ -172,4 +172,4 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
   );
 };
 
-export default SilentFailureModal;
+export default ScenarioModal;
