@@ -11,12 +11,14 @@ type ScenarioDef = {
   enabled: boolean;
   id: string;
   title: string;
+  type: string;
 };
 
 const scenarios: ScenarioDef[] = [
   {
     id: 'silent-failure',
     category: 'Silent failure',
+    type: 'Example scenario',
     title: 'Emails are being sent. Users are not receiving them.',
     description:
       'Your notification service logs success. The user never gets the email. No error, no alert — just silence. Operate detects the drop in your logs, traces the root cause, and raises a fix PR.',
@@ -25,6 +27,7 @@ const scenarios: ScenarioDef[] = [
   {
     id: 'support-ticket',
     category: 'User-reported bug',
+    type: 'Example scenario',
     title: 'Users can\'t log in. They\'re filing tickets.',
     description:
       'A user reports they can\'t sign in. It sits in the queue. Engineering finds out days later. Operate reads the ticket, traces the failing request, and opens a fix PR — before your team schedules a call.',
@@ -33,6 +36,7 @@ const scenarios: ScenarioDef[] = [
   {
     id: 'performance',
     category: 'Performance regression',
+    type: 'Example scenario',
     title: 'A page takes 8 seconds to load. Users are leaving.',
     description:
       'No error, no alert — just a slow experience that nobody pinned down. Users drop off. Operate correlates the latency spike to a specific bottleneck and opens a PR with the fix.',
@@ -70,12 +74,12 @@ const HomePage: React.FC = () => {
               Interactive Demo
             </p>
             <h1 className="mb-6 text-5xl font-bold leading-[1.08] tracking-[-0.04em] text-slate-900">
-              Your engineers spend 30–40% of their time on unplanned investigation. Operate fixes that.
+              Engineering teams spend 30–40% of their time on unplanned investigation. Operate fixes that.
             </h1>
             <p className="mb-10 text-lg leading-relaxed text-slate-500">
-              Operate works across any production issue — silent failures, user
-              complaints, performance regressions, and more. Try one of the
-              example scenarios to see it in action.
+              Most tools alert or investigate. Operate goes all the way to
+              resolution — raising a fix PR, updating a database, or deploying a
+              patch. The engineer decides what ships.
             </p>
 
             {/* How it works */}
@@ -89,12 +93,12 @@ const HomePage: React.FC = () => {
                 {
                   n: '2',
                   label: 'Operate investigates',
-                  sub: 'Signal to root cause to fix PR — automatically',
+                  sub: 'Detects, traces root cause, and raises a resolution — automatically',
                 },
                 {
                   n: '3',
                   label: 'Engineer approves',
-                  sub: 'You decide what ships. Nothing merges without sign-off.',
+                  sub: 'Nothing ships without sign-off. Every fix is reviewed.',
                 },
               ].map(({ n, label, sub }) => (
                 <div key={n} className="flex items-start gap-4">
@@ -154,9 +158,14 @@ const HomePage: React.FC = () => {
               >
                 <div className="mb-4 flex items-start justify-between gap-4">
                   <div>
-                    <p className="mb-2 text-xs font-bold uppercase tracking-widest text-slate-400">
-                      {s.category}
-                    </p>
+                    <div className="mb-2 flex items-center gap-2">
+                      <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+                        Example scenario
+                      </span>
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-slate-300">
+                        {s.category}
+                      </span>
+                    </div>
                     <h2 className="text-xl font-semibold leading-snug tracking-tight text-slate-900">
                       {s.title}
                     </h2>
