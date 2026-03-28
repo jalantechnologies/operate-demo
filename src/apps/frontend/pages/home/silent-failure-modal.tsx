@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import React, { useEffect, useState } from 'react';
 
 type TriggerState = 'idle' | 'loading' | 'done' | 'error';
@@ -37,297 +38,118 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
       {/* Backdrop */}
       <div
         onClick={onClose}
-        style={{
-          position: 'fixed',
-          inset: 0,
-          background: 'rgba(15, 23, 42, 0.45)',
-          zIndex: 100,
-          backdropFilter: 'blur(2px)',
-        }}
+        className="fixed inset-0 z-[100] bg-slate-900/40 backdrop-blur-sm"
       />
 
       {/* Modal */}
-      <div
-        style={{
-          position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          zIndex: 101,
-          width: '100%',
-          maxWidth: '560px',
-          margin: '0 16px',
-          background: '#fff',
-          borderRadius: '14px',
-          boxShadow: '0 24px 64px rgba(0,0,0,0.18)',
-          overflow: 'hidden',
-        }}
-      >
+      <div className="fixed left-1/2 top-1/2 z-[101] mx-4 w-full max-w-[560px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl bg-white shadow-2xl">
+
         {/* Header */}
-        <div
-          style={{
-            padding: '24px 24px 0',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            gap: '16px',
-          }}
-        >
+        <div className="flex items-start justify-between gap-4 px-6 pt-6">
           <div>
-            <p
-              style={{
-                fontSize: '9px',
-                fontWeight: 700,
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                color: '#94a3b8',
-                marginBottom: '4px',
-              }}
-            >
+            <p className="mb-1 text-[9px] font-bold uppercase tracking-widest text-slate-400">
               Silent failure
             </p>
-            <h2
-              style={{
-                fontSize: '17px',
-                fontWeight: 600,
-                letterSpacing: '-0.02em',
-                lineHeight: 1.3,
-                color: '#0f172a',
-              }}
-            >
-              Emails drop. No alert fires.
+            <h2 className="text-[17px] font-semibold leading-snug tracking-tight text-slate-900">
+              System is failing. Nobody knows.
             </h2>
           </div>
           <button
             onClick={onClose}
-            style={{
-              flexShrink: 0,
-              width: '28px',
-              height: '28px',
-              borderRadius: '6px',
-              border: '1px solid #e2e8f0',
-              background: '#f8fafc',
-              color: '#64748b',
-              fontSize: '14px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontFamily: 'inherit',
-              marginTop: '2px',
-            }}
+            className="mt-0.5 flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-md border border-slate-200 bg-slate-50 text-sm text-slate-500 hover:bg-slate-100"
           >
             ✕
           </button>
         </div>
 
         {/* Body */}
-        <div
-          style={{
-            padding: '20px 24px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '20px',
-          }}
-        >
-          {/* What is happening */}
+        <div className="flex flex-col gap-5 px-6 py-5">
+
+          {/* The scenario */}
           <div>
-            <p
-              style={{
-                fontSize: '10px',
-                fontWeight: 700,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: '#94a3b8',
-                marginBottom: '6px',
-              }}
-            >
+            <p className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
               The scenario
             </p>
-            <p style={{ fontSize: '13px', lineHeight: 1.7, color: '#475569' }}>
+            <p className="text-[13px] leading-relaxed text-slate-500">
               Reclr's email pipeline returns{' '}
-              <code
-                style={{
-                  fontSize: '12px',
-                  background: '#f1f5f9',
-                  padding: '1px 5px',
-                  borderRadius: '3px',
-                  color: '#0f172a',
-                }}
-              >
+              <code className="rounded bg-slate-100 px-1 py-px text-[12px] text-slate-800">
                 200 OK
               </code>{' '}
-              but silently drops the message before delivery. The candidate
-              never hears back. No alert fires. Your on-call never wakes up. The
-              only signal is a recruiter noticing a dead pipeline days later.
+              but silently drops the message before delivery. The candidate never hears back.
+              No alert fires. Your on-call never wakes up. The only signal is a recruiter
+              noticing a dead pipeline days later.
             </p>
           </div>
 
           {/* What Operate does */}
           <div>
-            <p
-              style={{
-                fontSize: '10px',
-                fontWeight: 700,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: '#94a3b8',
-                marginBottom: '6px',
-              }}
-            >
+            <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
               What Operate does
             </p>
-            <div
-              style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
-            >
+            <div className="flex flex-col gap-2">
               {[
                 'Detects the error in Datadog logs and opens a case automatically — no ticket, no manual triage.',
                 'Reads the request path, correlates log signals, and identifies where the message was dropped.',
-                'Raises a PR with the fix directly in your repo. Your engineer reviews and approves — nothing ships without sign-off.',
+                'Raises a fix PR in your repo. Your engineer reviews and approves — nothing merges without sign-off.',
               ].map((text, i) => (
-                <div
-                  key={i}
-                  style={{
-                    display: 'flex',
-                    gap: '10px',
-                    alignItems: 'flex-start',
-                  }}
-                >
-                  <span
-                    style={{
-                      flexShrink: 0,
-                      width: '18px',
-                      height: '18px',
-                      borderRadius: '50%',
-                      background: '#e2e8f0',
-                      color: '#475569',
-                      fontSize: '9px',
-                      fontWeight: 700,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      marginTop: '2px',
-                    }}
-                  >
+                <div key={i} className="flex items-start gap-2.5">
+                  <span className="mt-0.5 flex size-[18px] shrink-0 items-center justify-center rounded-full bg-slate-200 text-[9px] font-bold text-slate-500">
                     {i + 1}
                   </span>
-                  <p
-                    style={{
-                      fontSize: '13px',
-                      lineHeight: 1.65,
-                      color: '#475569',
-                    }}
-                  >
-                    {text}
-                  </p>
+                  <p className="text-[13px] leading-relaxed text-slate-500">{text}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Flow diagram */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              flexWrap: 'wrap',
-              padding: '10px 12px',
-              background: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: '7px',
-            }}
-          >
-            {[
-              'Error logged',
-              'Datadog alert',
-              'Operate webhook',
-              'Case created',
-              'Finding ready',
-            ].map((step, i, arr) => (
-              <React.Fragment key={step}>
-                <span
-                  style={{
-                    fontSize: '11px',
-                    color: '#64748b',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {step}
-                </span>
-                {i < arr.length - 1 && (
-                  <span style={{ fontSize: '11px', color: '#cbd5e1' }}>→</span>
-                )}
-              </React.Fragment>
-            ))}
+          {/* Flow */}
+          <div className="flex flex-wrap items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5">
+            {['Error logged', 'Datadog alert', 'Operate webhook', 'Case created', 'Fix PR raised'].map(
+              (step, i, arr) => (
+                <React.Fragment key={step}>
+                  <span className="whitespace-nowrap text-[11px] text-slate-500">{step}</span>
+                  {i < arr.length - 1 && (
+                    <span className="text-[11px] text-slate-300">→</span>
+                  )}
+                </React.Fragment>
+              ),
+            )}
           </div>
         </div>
 
         {/* Footer */}
-        <div
-          style={{
-            padding: '16px 24px',
-            borderTop: '1px solid #f1f5f9',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '12px',
-            background: '#fafbfc',
-          }}
-        >
+        <div className="flex items-center justify-between gap-3 border-t border-slate-100 bg-slate-50 px-6 py-4">
           {state === 'done' ? (
             <>
-              <span
-                style={{ fontSize: '12px', color: '#16a34a', fontWeight: 500 }}
-              >
+              <span className="text-[12px] font-medium text-green-600">
                 ✓ Failure injected — Operate is on it
               </span>
               <a
                 href="/operate"
-                style={{
-                  padding: '7px 16px',
-                  borderRadius: '6px',
-                  background: '#01417f',
-                  color: '#fff',
-                  fontSize: '12px',
-                  fontWeight: 500,
-                  textDecoration: 'none',
-                  whiteSpace: 'nowrap',
-                }}
+                className="inline-flex items-center gap-1.5 rounded-lg bg-[#01417f] px-4 py-2 text-[12px] font-medium text-white no-underline"
               >
                 Open Operate Dashboard →
               </a>
             </>
           ) : (
             <>
-              {state === 'error' && (
-                <span style={{ fontSize: '12px', color: '#dc2626' }}>
-                  Something went wrong. Try again.
-                </span>
+              {state === 'error' ? (
+                <span className="text-[12px] text-red-600">Something went wrong. Try again.</span>
+              ) : (
+                <span />
               )}
-              {state !== 'error' && <span />}
               <button
-                onClick={() => {
-                  trigger().catch(() => undefined);
-                }}
+                onClick={() => { void trigger(); }}
                 disabled={state === 'loading'}
-                style={{
-                  padding: '7px 18px',
-                  borderRadius: '6px',
-                  border: 'none',
-                  background: state === 'error' ? '#fee2e2' : '#01417f',
-                  color: state === 'error' ? '#dc2626' : '#fff',
-                  fontSize: '12px',
-                  fontWeight: 500,
-                  cursor: state === 'loading' ? 'not-allowed' : 'pointer',
-                  fontFamily: 'inherit',
-                  transition: 'background 0.15s',
-                  whiteSpace: 'nowrap',
-                }}
+                className={clsx(
+                  'rounded-lg px-4 py-2 text-[12px] font-medium transition-colors',
+                  state === 'error'
+                    ? 'bg-red-50 text-red-600'
+                    : 'bg-[#01417f] text-white',
+                  state === 'loading' ? 'cursor-not-allowed opacity-70' : 'cursor-pointer',
+                )}
               >
-                {state === 'loading' && 'Triggering…'}
-                {state === 'error' && 'Retry'}
-                {state !== 'loading' && state !== 'error' && 'Trigger scenario'}
+                {state === 'loading' ? 'Triggering…' : state === 'error' ? 'Retry' : 'Trigger scenario'}
               </button>
             </>
           )}
