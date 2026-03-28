@@ -43,7 +43,6 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
 
       {/* Modal */}
       <div className="fixed left-1/2 top-1/2 z-[101] mx-4 w-full max-w-[560px] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl bg-white shadow-2xl">
-
         {/* Header */}
         <div className="flex items-start justify-between gap-4 px-6 pt-6">
           <div>
@@ -64,7 +63,6 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
 
         {/* Body */}
         <div className="flex flex-col gap-5 px-6 py-5">
-
           {/* The scenario */}
           <div>
             <p className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">
@@ -75,9 +73,9 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
               <code className="rounded bg-slate-100 px-1 py-px text-[12px] text-slate-800">
                 200 OK
               </code>{' '}
-              but silently drops the message before delivery. The candidate never hears back.
-              No alert fires. Your on-call never wakes up. The only signal is a recruiter
-              noticing a dead pipeline days later.
+              but silently drops the message before delivery. The candidate
+              never hears back. No alert fires. Your on-call never wakes up. The
+              only signal is a recruiter noticing a dead pipeline days later.
             </p>
           </div>
 
@@ -96,7 +94,9 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
                   <span className="mt-0.5 flex size-[18px] shrink-0 items-center justify-center rounded-full bg-slate-200 text-[9px] font-bold text-slate-500">
                     {i + 1}
                   </span>
-                  <p className="text-[13px] leading-relaxed text-slate-500">{text}</p>
+                  <p className="text-[13px] leading-relaxed text-slate-500">
+                    {text}
+                  </p>
                 </div>
               ))}
             </div>
@@ -104,16 +104,22 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
 
           {/* Flow */}
           <div className="flex flex-wrap items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5">
-            {['Error logged', 'Datadog alert', 'Operate webhook', 'Case created', 'Fix PR raised'].map(
-              (step, i, arr) => (
-                <React.Fragment key={step}>
-                  <span className="whitespace-nowrap text-[11px] text-slate-500">{step}</span>
-                  {i < arr.length - 1 && (
-                    <span className="text-[11px] text-slate-300">→</span>
-                  )}
-                </React.Fragment>
-              ),
-            )}
+            {[
+              'Error logged',
+              'Datadog alert',
+              'Operate webhook',
+              'Case created',
+              'Fix PR raised',
+            ].map((step, i, arr) => (
+              <React.Fragment key={step}>
+                <span className="whitespace-nowrap text-[11px] text-slate-500">
+                  {step}
+                </span>
+                {i < arr.length - 1 && (
+                  <span className="text-[11px] text-slate-300">→</span>
+                )}
+              </React.Fragment>
+            ))}
           </div>
         </div>
 
@@ -134,22 +140,30 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
           ) : (
             <>
               {state === 'error' ? (
-                <span className="text-[12px] text-red-600">Something went wrong. Try again.</span>
+                <span className="text-[12px] text-red-600">
+                  Something went wrong. Try again.
+                </span>
               ) : (
                 <span />
               )}
               <button
-                onClick={() => { void trigger(); }}
+                onClick={() => {
+                  trigger().catch(() => undefined);
+                }}
                 disabled={state === 'loading'}
                 className={clsx(
                   'rounded-lg px-4 py-2 text-[12px] font-medium transition-colors',
                   state === 'error'
                     ? 'bg-red-50 text-red-600'
                     : 'bg-[#01417f] text-white',
-                  state === 'loading' ? 'cursor-not-allowed opacity-70' : 'cursor-pointer',
+                  state === 'loading'
+                    ? 'cursor-not-allowed opacity-70'
+                    : 'cursor-pointer',
                 )}
               >
-                {state === 'loading' ? 'Triggering…' : state === 'error' ? 'Retry' : 'Trigger scenario'}
+                {state === 'loading' && 'Triggering…'}
+                {state === 'error' && 'Retry'}
+                {state !== 'loading' && state !== 'error' && 'Trigger scenario'}
               </button>
             </>
           )}

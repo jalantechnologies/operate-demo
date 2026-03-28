@@ -47,17 +47,14 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="min-h-dvh bg-white font-sans text-slate-900 antialiased">
-
       {activeModal === 'silent-failure' && (
         <SilentFailureModal onClose={() => setActiveModal(null)} />
       )}
 
       {/* ── Full-height two-column layout ── */}
       <div className="flex min-h-dvh flex-col lg:flex-row">
-
         {/* ── LEFT PANEL ─────────────────────────────────────────────────── */}
         <div className="flex flex-col justify-between bg-[#f8f9fb] px-10 py-10 lg:sticky lg:top-0 lg:h-dvh lg:w-[42%] lg:px-14 lg:py-16">
-
           {/* Logo */}
           <div>
             <a href="https://bettrsw.com" target="_blank" rel="noreferrer">
@@ -76,23 +73,37 @@ const HomePage: React.FC = () => {
               See Operate fix a production bug — live.
             </h1>
             <p className="mb-8 max-w-[340px] text-[15px] leading-relaxed text-slate-500">
-              Pick a scenario. Operate detects the incident, investigates,
-              and raises a fix PR in your repo — autonomously.
+              Pick a scenario. Operate detects the incident, investigates, and
+              raises a fix PR in your repo — autonomously.
             </p>
 
             {/* How it works */}
             <div className="flex flex-col gap-4">
               {[
-                { n: '1', label: 'Trigger a scenario', sub: 'Inject a real incident into the demo app' },
-                { n: '2', label: 'Operate investigates', sub: 'Detects, traces root cause, raises a fix PR' },
-                { n: '3', label: 'You approve', sub: 'Nothing merges without engineer sign-off' },
+                {
+                  n: '1',
+                  label: 'Trigger a scenario',
+                  sub: 'Inject a real incident into the demo app',
+                },
+                {
+                  n: '2',
+                  label: 'Operate investigates',
+                  sub: 'Detects, traces root cause, raises a fix PR',
+                },
+                {
+                  n: '3',
+                  label: 'You approve',
+                  sub: 'Nothing merges without engineer sign-off',
+                },
               ].map(({ n, label, sub }) => (
                 <div key={n} className="flex items-start gap-3.5">
                   <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-white text-[11px] font-bold text-slate-500 shadow-sm ring-1 ring-slate-200">
                     {n}
                   </span>
                   <div>
-                    <p className="text-[13px] font-semibold text-slate-700">{label}</p>
+                    <p className="text-[13px] font-semibold text-slate-700">
+                      {label}
+                    </p>
                     <p className="text-[12px] text-slate-400">{sub}</p>
                   </div>
                 </div>
@@ -126,7 +137,6 @@ const HomePage: React.FC = () => {
 
         {/* ── RIGHT PANEL ────────────────────────────────────────────────── */}
         <div className="flex flex-1 flex-col px-8 py-10 lg:overflow-y-auto lg:px-12 lg:py-16">
-
           {/* Top bar */}
           <div className="mb-10 flex items-center justify-between">
             <p className="text-[13px] font-medium text-slate-400">
@@ -181,7 +191,9 @@ const HomePage: React.FC = () => {
                       Trigger scenario →
                     </button>
                   ) : (
-                    <span className="text-[12px] text-slate-300">Coming soon</span>
+                    <span className="text-[12px] text-slate-300">
+                      Coming soon
+                    </span>
                   )}
                 </div>
               </div>
@@ -191,7 +203,8 @@ const HomePage: React.FC = () => {
           {/* Bottom branding */}
           <div className="mt-auto pt-12">
             <p className="text-center text-[12px] text-slate-300">
-              © {new Date().getFullYear()} Jalan Technology Consulting Pvt. Ltd.
+              © {new Date().getFullYear()} Jalan Technology Consulting Pvt.
+              Ltd.
             </p>
           </div>
         </div>
