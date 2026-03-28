@@ -5,9 +5,7 @@ from modules.scenario.types import ScenarioErrorCode
 class ScenarioNotFoundError(AppError):
     def __init__(self, scenario_id: str) -> None:
         super().__init__(
-            code=ScenarioErrorCode.NOT_FOUND,
-            http_status_code=404,
-            message=f"Scenario '{scenario_id}' not found.",
+            code=ScenarioErrorCode.NOT_FOUND, http_status_code=404, message=f"Scenario '{scenario_id}' not found."
         )
 
 

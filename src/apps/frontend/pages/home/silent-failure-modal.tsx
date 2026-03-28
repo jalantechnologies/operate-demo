@@ -122,8 +122,14 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
         </div>
 
         {/* Body */}
-        <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-
+        <div
+          style={{
+            padding: '20px 24px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '20px',
+          }}
+        >
           {/* What is happening */}
           <div>
             <p
@@ -139,10 +145,21 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
               The scenario
             </p>
             <p style={{ fontSize: '13px', lineHeight: 1.7, color: '#475569' }}>
-              Reclr's email pipeline returns <code style={{ fontSize: '12px', background: '#f1f5f9', padding: '1px 5px', borderRadius: '3px', color: '#0f172a' }}>200 OK</code> but
-              silently drops the message before delivery. The candidate never hears back.
-              No alert fires. Your on-call never wakes up. The only signal is a recruiter
-              noticing a dead pipeline days later.
+              Reclr's email pipeline returns{' '}
+              <code
+                style={{
+                  fontSize: '12px',
+                  background: '#f1f5f9',
+                  padding: '1px 5px',
+                  borderRadius: '3px',
+                  color: '#0f172a',
+                }}
+              >
+                200 OK
+              </code>{' '}
+              but silently drops the message before delivery. The candidate
+              never hears back. No alert fires. Your on-call never wakes up. The
+              only signal is a recruiter noticing a dead pipeline days later.
             </p>
           </div>
 
@@ -160,13 +177,22 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
             >
               What Operate does
             </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div
+              style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}
+            >
               {[
                 'Detects the error in Datadog logs and opens a case automatically — no ticket, no manual triage.',
                 'Reads the request path, correlates log signals, and identifies where the message was dropped.',
                 'Raises a PR with the fix directly in your repo. Your engineer reviews and approves — nothing ships without sign-off.',
               ].map((text, i) => (
-                <div key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                <div
+                  key={i}
+                  style={{
+                    display: 'flex',
+                    gap: '10px',
+                    alignItems: 'flex-start',
+                  }}
+                >
                   <span
                     style={{
                       flexShrink: 0,
@@ -185,7 +211,15 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
                   >
                     {i + 1}
                   </span>
-                  <p style={{ fontSize: '13px', lineHeight: 1.65, color: '#475569' }}>{text}</p>
+                  <p
+                    style={{
+                      fontSize: '13px',
+                      lineHeight: 1.65,
+                      color: '#475569',
+                    }}
+                  >
+                    {text}
+                  </p>
                 </div>
               ))}
             </div>
@@ -212,7 +246,13 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
               'Finding ready',
             ].map((step, i, arr) => (
               <React.Fragment key={step}>
-                <span style={{ fontSize: '11px', color: '#64748b', whiteSpace: 'nowrap' }}>
+                <span
+                  style={{
+                    fontSize: '11px',
+                    color: '#64748b',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
                   {step}
                 </span>
                 {i < arr.length - 1 && (
@@ -237,7 +277,9 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
         >
           {state === 'done' ? (
             <>
-              <span style={{ fontSize: '12px', color: '#16a34a', fontWeight: 500 }}>
+              <span
+                style={{ fontSize: '12px', color: '#16a34a', fontWeight: 500 }}
+              >
                 ✓ Failure injected — Operate is on it
               </span>
               <a
@@ -265,7 +307,9 @@ const SilentFailureModal: React.FC<SilentFailureModalProps> = ({ onClose }) => {
               )}
               {state !== 'error' && <span />}
               <button
-                onClick={() => { trigger().catch(() => undefined); }}
+                onClick={() => {
+                  trigger().catch(() => undefined);
+                }}
                 disabled={state === 'loading'}
                 style={{
                   padding: '7px 18px',

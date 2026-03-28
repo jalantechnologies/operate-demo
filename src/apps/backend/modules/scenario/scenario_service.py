@@ -63,6 +63,5 @@ class ScenarioService:
         Logger.error(message=message)
 
         return TriggerScenarioResult(
-            scenario_id=ScenarioId.SILENT_FAILURE,
-            message="Scenario triggered — error logged to Datadog.",
+            scenario_id=ScenarioId.SILENT_FAILURE, message="Scenario triggered — error logged to Datadog."
         )

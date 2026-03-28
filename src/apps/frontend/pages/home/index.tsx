@@ -43,7 +43,9 @@ const BetterHeader: React.FC = () => {
                 style={{ height: '26px', width: 'auto', display: 'block' }}
               />
             </a>
-            <div style={{ width: '1px', height: '20px', background: '#e2e8f0' }} />
+            <div
+              style={{ width: '1px', height: '20px', background: '#e2e8f0' }}
+            />
             <span style={{ fontSize: '13px', color: '#94a3b8' }}>
               Reclr · Operate Demo
             </span>
@@ -102,7 +104,11 @@ const BetterFooter: React.FC = () => (
             href="https://bettrsw.com/operate"
             target="_blank"
             rel="noreferrer"
-            style={{ color: '#64748b', textDecoration: 'none', fontWeight: 500 }}
+            style={{
+              color: '#64748b',
+              textDecoration: 'none',
+              fontWeight: 500,
+            }}
           >
             Operate
           </a>
@@ -139,7 +145,7 @@ const scenarios: ScenarioDef[] = [
     category: 'Silent failure',
     title: 'Emails drop. No alert fires.',
     description:
-      'Reclr\'s email pipeline returns 200 OK but candidates never hear back. No monitor catches it. Operate detects the silent failure, traces the cause, and raises a fix PR — before anyone files a ticket.',
+      "Reclr's email pipeline returns 200 OK but candidates never hear back. No monitor catches it. Operate detects the silent failure, traces the cause, and raises a fix PR — before anyone files a ticket.",
     enabled: true,
   },
   {
@@ -298,7 +304,8 @@ const HomePage: React.FC = () => {
                   Reclr is a fictional recruitment app running a live backend.
                   Pick a scenario below to inject a real production failure —
                   then watch Operate detect it, investigate, and raise a PR with
-                  the fix for engineer approval. No setup. Takes about 2 minutes.
+                  the fix for engineer approval. No setup. Takes about 2
+                  minutes.
                 </p>
               </div>
               <div
