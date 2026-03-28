@@ -37,9 +37,9 @@ const scenarios: ScenarioDef[] = [
     id: 'support-ticket',
     category: 'User-reported bug',
     type: 'Example scenario',
-    title: 'A user can\'t log in. The bug sits in the queue for days.',
+    title: "A user can't log in. The bug sits in the queue for days.",
     description:
-      'A user reports they can\'t sign in. It sits in the queue. Engineering finds out days later. Operate reads the ticket, traces the failing request, and raises a resolution — before anyone schedules a call.',
+      "A user reports they can't sign in. It sits in the queue. Engineering finds out days later. Operate reads the ticket, traces the failing request, and raises a resolution — before anyone schedules a call.",
     enabled: false,
   },
 ];
@@ -74,11 +74,14 @@ const HomePage: React.FC = () => {
               Interactive Demo
             </p>
             <h1 className="mb-6 text-5xl font-bold leading-[1.08] tracking-[-0.04em] text-slate-900">
-              Engineering teams spend 30–40% of their time on unplanned investigation. Operate fixes that.
+              Engineering teams spend 30–40% of their time on unplanned
+              investigation. Operate fixes that.
             </h1>
             <p className="mb-10 text-lg leading-relaxed text-slate-500">
               When something goes wrong, Operate traces the root cause and takes
-              it all the way to resolution. The engineer reviews and deploys.
+              it all the way to resolution — a fix PR, a data correction, or
+              added logging if more signal is needed. The engineer reviews and
+              deploys.
             </p>
 
             {/* How it works */}
@@ -191,7 +194,9 @@ const HomePage: React.FC = () => {
                       Trigger scenario →
                     </button>
                   ) : (
-                    <span className="text-sm font-medium text-slate-400">Coming soon</span>
+                    <span className="text-sm font-medium text-slate-400">
+                      Coming soon
+                    </span>
                   )}
                 </div>
               </div>
