@@ -43,9 +43,7 @@ const BetterHeader: React.FC = () => {
                 style={{ height: '26px', width: 'auto', display: 'block' }}
               />
             </a>
-            <div
-              style={{ width: '1px', height: '20px', background: '#e2e8f0' }}
-            />
+            <div style={{ width: '1px', height: '20px', background: '#e2e8f0' }} />
             <span style={{ fontSize: '13px', color: '#94a3b8' }}>
               Reclr · Operate Demo
             </span>
@@ -104,11 +102,7 @@ const BetterFooter: React.FC = () => (
             href="https://bettrsw.com/operate"
             target="_blank"
             rel="noreferrer"
-            style={{
-              color: '#64748b',
-              textDecoration: 'none',
-              fontWeight: 500,
-            }}
+            style={{ color: '#64748b', textDecoration: 'none', fontWeight: 500 }}
           >
             Operate
           </a>
@@ -134,26 +128,26 @@ type ScenarioDef = {
 const scenarios: ScenarioDef[] = [
   {
     id: 'support-ticket',
-    category: 'User-reported error',
-    title: 'Bug report lands in your inbox',
+    category: 'User-reported bug',
+    title: 'App is broken — user filed a ticket',
     description:
-      'A recruiter says something is broken. Operate reads the ticket, traces the request, finds the root cause, and hands your engineer a diff-ready finding.',
+      'A user can\'t complete checkout. The PM escalates. Operate reads the ticket, traces the request, identifies the failing service, and raises a fix PR — before your engineer has finished reading the Slack thread.',
     enabled: false,
   },
   {
     id: 'silent-failure',
     category: 'Silent failure',
-    title: 'Emails drop. No alert fires.',
+    title: 'System is failing. Nobody knows.',
     description:
-      "Reclr's email pipeline returns 200 OK but candidates never hear back. No monitor catches it. Operate detects the silent failure, traces the cause, and raises a fix PR — before anyone files a ticket.",
+      'Candidate emails are being dropped. The API returns 200 so no alert fires. No one is watching. Operate detects the failure in your logs, traces the cause, and raises a fix PR before it becomes a customer complaint.',
     enabled: true,
   },
   {
     id: 'performance',
     category: 'Performance regression',
-    title: 'Search got slow. Nobody knows why.',
+    title: 'Users are frustrated. App feels slow.',
     description:
-      'Recruiter search degrades intermittently with no linked deploy. Operate identifies the slow query and proposes a targeted fix.',
+      'Search response times spike under load. Users notice. Engineers don\'t. Operate correlates the slowdown to a specific query, identifies the bottleneck, and proposes a targeted fix.',
     enabled: false,
   },
 ];
@@ -181,7 +175,7 @@ const HomePage: React.FC = () => {
         .stage {
           display: flex;
           justify-content: center;
-          padding: 48px 32px 64px;
+          padding: 56px 32px 72px;
         }
         @media (max-width: 767px) {
           .stage { padding: 32px 20px 48px; }
@@ -192,16 +186,17 @@ const HomePage: React.FC = () => {
           max-width: 900px;
         }
 
-        .page-header {
+        .hero {
           display: flex;
           align-items: flex-start;
           justify-content: space-between;
           gap: 24px;
-          margin-bottom: 24px;
+          margin-bottom: 36px;
+          padding-bottom: 32px;
+          border-bottom: 1px solid #f1f5f9;
         }
         @media (max-width: 699px) {
-          .page-header { flex-direction: column; align-items: flex-start; gap: 16px; }
-          .page-header-cta { text-align: left !important; }
+          .hero { flex-direction: column; gap: 20px; }
         }
 
         .cards {
@@ -264,47 +259,38 @@ const HomePage: React.FC = () => {
       >
         <main className="stage" style={{ flex: 1 }}>
           <div className="stage-inner">
-            {/* Header row */}
-            <div className="page-header">
+
+            {/* Hero */}
+            <div className="hero">
               <div>
-                <p
-                  style={{
-                    fontSize: '10px',
-                    fontWeight: 600,
-                    letterSpacing: '0.12em',
-                    textTransform: 'uppercase',
-                    color: '#01417f',
-                    marginBottom: '8px',
-                  }}
-                >
-                  Operate · Interactive Demo
-                </p>
                 <h1
                   style={{
-                    fontSize: '26px',
+                    fontSize: '32px',
                     fontWeight: 700,
-                    letterSpacing: '-0.03em',
-                    lineHeight: 1.2,
+                    letterSpacing: '-0.04em',
+                    lineHeight: 1.1,
                     color: '#0f172a',
                     marginBottom: '10px',
-                    maxWidth: '520px',
                   }}
                 >
-                  Your AI engineer that fixes production bugs on its own.
+                  Operate Demo
                 </h1>
                 <p
                   style={{
-                    fontSize: '13px',
+                    fontSize: '14px',
                     color: '#64748b',
-                    lineHeight: 1.65,
-                    maxWidth: '460px',
-                    marginBottom: '20px',
+                    lineHeight: 1.6,
+                    maxWidth: '420px',
                   }}
                 >
-                  Operate watches your logs, detects incidents, traces the root
-                  cause, and raises a fix PR — without anyone filing a ticket.
-                  Trigger one of the scenarios below to see it happen live on
-                  Reclr, a fictional recruitment app running a real backend.
+                  Trigger a production incident below. Operate detects it,
+                  investigates, and raises a fix PR — autonomously.
+                </p>
+              </div>
+
+              <div style={{ flexShrink: 0, paddingTop: '4px' }}>
+                <p style={{ fontSize: '11px', color: '#94a3b8', marginBottom: '8px', textAlign: 'right' }}>
+                  Already triggered a scenario?
                 </p>
                 <a
                   href="/operate"
@@ -326,10 +312,6 @@ const HomePage: React.FC = () => {
                   Open Operate Dashboard →
                 </a>
               </div>
-              <div
-                className="page-header-cta"
-                style={{ flexShrink: 0, textAlign: 'right', paddingTop: '4px' }}
-              />
             </div>
 
             {/* Scenario cards */}
@@ -355,7 +337,7 @@ const HomePage: React.FC = () => {
                       letterSpacing: '-0.015em',
                       lineHeight: 1.3,
                       color: '#0f172a',
-                      marginBottom: '7px',
+                      marginBottom: '8px',
                     }}
                   >
                     {s.title}
@@ -380,13 +362,7 @@ const HomePage: React.FC = () => {
                       borderTop: '1px solid #f1f5f9',
                     }}
                   >
-                    <span
-                      style={{
-                        fontSize: '10px',
-                        color: '#cbd5e1',
-                        fontWeight: 500,
-                      }}
-                    >
+                    <span style={{ fontSize: '10px', color: '#cbd5e1', fontWeight: 500 }}>
                       {s.enabled ? '' : 'Coming soon'}
                     </span>
                     <button
@@ -415,9 +391,9 @@ const HomePage: React.FC = () => {
             {/* Steps strip */}
             <div className="steps-row">
               {[
-                'Trigger a scenario to inject the incident into the demo app',
-                'Open the Operate dashboard — watch context, root cause & verification run live',
-                'Review the finding & approve — nothing ships without sign-off',
+                'Trigger a scenario to inject the incident into the app',
+                'Operate detects it, investigates, and raises a fix PR',
+                'Review the PR and approve — nothing merges without sign-off',
               ].map((text, i) => (
                 <React.Fragment key={i}>
                   {i > 0 && <div className="step-sep" />}
@@ -440,19 +416,14 @@ const HomePage: React.FC = () => {
                     >
                       {i + 1}
                     </span>
-                    <span
-                      style={{
-                        fontSize: '11px',
-                        color: '#64748b',
-                        lineHeight: 1.45,
-                      }}
-                    >
+                    <span style={{ fontSize: '11px', color: '#64748b', lineHeight: 1.45 }}>
                       {text}
                     </span>
                   </div>
                 </React.Fragment>
               ))}
             </div>
+
           </div>
         </main>
 
