@@ -17,29 +17,29 @@ type ScenarioDef = {
 const scenarios: ScenarioDef[] = [
   {
     id: 'silent-failure',
-    category: 'Silent failure',
+    category: 'Proactive log monitoring',
     type: 'Example scenario',
-    title: 'Emails are being sent. Users are not receiving them.',
+    title: 'Errors are appearing in logs. Nobody has noticed yet.',
     description:
-      'Your notification service logs success. The user never gets the email. No error, no alert — just silence. Operate detects the drop in your logs, traces the root cause, and raises a fix PR.',
+      'Operate continuously monitors application and system logs. When errors surface — even ones that return 200 — it traces the root cause and raises a fix PR before anyone files a ticket.',
     enabled: true,
   },
   {
     id: 'support-ticket',
     category: 'User-reported bug',
     type: 'Example scenario',
-    title: 'Users can\'t log in. They\'re filing tickets.',
+    title: 'A user can\'t log in. The bug sits in the queue for days.',
     description:
-      'A user reports they can\'t sign in. It sits in the queue. Engineering finds out days later. Operate reads the ticket, traces the failing request, and opens a fix PR — before your team schedules a call.',
+      'A user reports they can\'t sign in. It sits in the queue. Engineering finds out days later. Operate reads the ticket, traces the failing request, and opens a fix PR — before anyone schedules a call.',
     enabled: false,
   },
   {
     id: 'performance',
     category: 'Performance regression',
     type: 'Example scenario',
-    title: 'A page takes 8 seconds to load. Users are leaving.',
+    title: 'Slow requests are piling up in logs. Users are dropping off.',
     description:
-      'No error, no alert — just a slow experience that nobody pinned down. Users drop off. Operate correlates the latency spike to a specific bottleneck and opens a PR with the fix.',
+      'No error, no alert — just latency creeping up across requests. Operate monitors logs, profiles slow queries and database calls, identifies the bottleneck, and opens a fix PR.',
     enabled: false,
   },
 ];
@@ -77,9 +77,9 @@ const HomePage: React.FC = () => {
               Engineering teams spend 30–40% of their time on unplanned investigation. Operate fixes that.
             </h1>
             <p className="mb-10 text-lg leading-relaxed text-slate-500">
-              Most tools alert or investigate. Operate goes all the way to
-              resolution — raising a fix PR, updating a database, or deploying a
-              patch. The engineer decides what ships.
+              Operate monitors logs in your cloud provider and responds to user
+              reports. When something goes wrong — spotted proactively or
+              reported via Slack — it traces the root cause and raises a fix PR.
             </p>
 
             {/* How it works */}
@@ -162,7 +162,7 @@ const HomePage: React.FC = () => {
                       <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
                         Example scenario
                       </span>
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-slate-300">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
                         {s.category}
                       </span>
                     </div>
