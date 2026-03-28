@@ -74,27 +74,6 @@ Changes to either codebase are reflected immediately via hot reload.
 - [Bootstrapping](docs/bootstrapping.md)
 - [Running Scripts in Production](docs/running-scripts-in-production.md)
 
-## Cloud log monitoring scenario
-
-operate-demo includes a `SimulateTaskFailureWorker` that runs every 5 minutes and logs a realistic task processing error via `Logger.error()`. This gives Operate's Datadog log monitor real errors to detect so you can verify the full end-to-end pipeline:
-
-```
-operate-demo logs error → Datadog ingests it → Datadog log monitor fires
-  → POST /operate/api/webhooks/datadog → Operate creates a Case (status: pending)
-```
-
-To enable this scenario, configure the Datadog integration and public URI in Operate's `.env`:
-
-```bash
-OPERATE_HOST_APP_DATADOG_API_KEY=...
-OPERATE_HOST_APP_DATADOG_APP_KEY=...
-OPERATE_HOST_APP_DATADOG_SITE=us5.datadoghq.com   # match your Datadog site
-OPERATE_HOST_APP_DATADOG_SERVICE=operate-demo
-OPERATE_HOST_APP_PUBLIC_URI=http://localhost:3000  # root URL of the host app
-```
-
-Once both stacks are running, the worker will fire within 5 minutes and you should see a new case appear in the Operate Cases page at http://localhost:3000/operate.
-
 ## Best Practices
 
 Head over to the [Engineering Handbook](https://github.com/jalantechnologies/handbook/blob/main/engineering/index.md) for the best practices we follow at Better Software.
