@@ -37,7 +37,12 @@ const ScenarioModal: React.FC<ScenarioModalProps> = ({ onClose }) => {
     <>
       {/* Backdrop */}
       <div
+        role="button"
+        tabIndex={0}
         onClick={onClose}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') onClose();
+        }}
         className="fixed inset-0 z-[100] bg-slate-900/40 backdrop-blur-sm"
       />
 
