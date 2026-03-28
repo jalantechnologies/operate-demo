@@ -39,7 +39,7 @@ const scenarios: ScenarioDef[] = [
     type: 'Example scenario',
     title: 'Slow requests are piling up in logs. Users are dropping off.',
     description:
-      'No error, no alert — just latency creeping up across requests. Operate monitors logs, profiles slow queries and database calls, identifies the bottleneck, and opens a fix PR.',
+      'Slow requests and long database queries accumulate in logs — but nobody connects the dots. Operate profiles the request path, identifies the bottleneck, and raises a resolution for engineer review.',
     enabled: false,
   },
 ];
@@ -77,10 +77,8 @@ const HomePage: React.FC = () => {
               Engineering teams spend 30–40% of their time on unplanned investigation. Operate fixes that.
             </h1>
             <p className="mb-10 text-lg leading-relaxed text-slate-500">
-              Operate proactively monitors application health and responds to
-              inbound reports. When something goes wrong — detected
-              automatically or reported by the team — it traces the root cause
-              and raises a fix PR.
+              When something goes wrong, Operate traces the root cause and takes
+              it all the way to resolution. The engineer reviews and deploys.
             </p>
 
             {/* How it works */}
