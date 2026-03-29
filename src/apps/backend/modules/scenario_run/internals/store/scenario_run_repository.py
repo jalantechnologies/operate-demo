@@ -28,6 +28,13 @@ class ScenarioRunRepository(ApplicationRepository):
         return cls._from_doc(doc) if doc is not None else None
 
     @classmethod
+    def update_error_logged_at(cls, run_id: str, error_logged_at: datetime) -> None:
+        cls.collection().update_one(
+            {"_id": ObjectId(run_id)},
+            {"$set": {"error_logged_at": error_logged_at}},
+        )
+
+    @classmethod
     def mark_detected(
         cls,
         run_id: str,

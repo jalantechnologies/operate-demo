@@ -17,6 +17,10 @@ class ScenarioRunWriter:
         return ScenarioRunRepository.insert(run)
 
     @staticmethod
+    def update_error_logged_at(run_id: str, error_logged_at: datetime) -> None:
+        ScenarioRunRepository.update_error_logged_at(run_id, error_logged_at)
+
+    @staticmethod
     def mark_detected(
         run_id: str,
         operate_case_id: str,

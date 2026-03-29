@@ -24,8 +24,8 @@ type ScenarioRunResponse = {
 
 type TimelineData = {
   errorLoggedAt: Date;
+  datadogReceivedAt: Date | null;
   datadogAlertedAt: Date | null;
-  webhookReceivedAt: Date | null;
   caseCreatedAt: Date | null;
 };
 
@@ -45,9 +45,11 @@ function formatTime(d: Date): string {
   });
 }
 
-function secondsBetween(a: Date, b: Date): string {
-  const diff = Math.round((b.getTime() - a.getTime()) / 1000);
-  return `+${diff}s`;
+function deltaLabel(a: Date, b: Date): string | null {
+  const diffMs = b.getTime() - a.getTime();
+  if (Math.abs(diffMs) < 1000) return null; // same second — don't show
+  const diffS = Math.round(diffMs / 1000);
+  return `+${diffS}s`;
 }
 
 type TimelineStepProps = {
@@ -109,9 +111,9 @@ const TimelineStep: React.FC<TimelineStepProps> = ({
             <p className="text-[11px] font-medium text-slate-600">
               {formatTime(time)}
             </p>
-            {referenceTime && (
+            {referenceTime && deltaLabel(referenceTime, time) && (
               <p className="text-[10px] text-slate-400">
-                {secondsBetween(referenceTime, time)} from trigger
+                {deltaLabel(referenceTime, time)} from trigger
               </p>
             )}
           </>
@@ -155,7 +157,7 @@ const ScenarioModal: React.FC<ScenarioModalProps> = ({ onClose }) => {
     };
   }, [state]);
 
-  const poll = (runId: string) => {
+  const poll = async (runId: string) => {
     pollCountRef.current += 1;
 
     if (pollCountRef.current > POLL_MAX_ATTEMPTS) {
@@ -163,28 +165,34 @@ const ScenarioModal: React.FC<ScenarioModalProps> = ({ onClose }) => {
       return;
     }
 
-    fetch(`/api/scenario-runs/${runId}`)
-      .then((r) => r.json() as Promise<ScenarioRunResponse>)
-      .then((run) => {
-        if (run.status === 'detected') {
-          setTimeline({
-            errorLoggedAt: new Date(run.error_logged_at ?? run.triggered_at),
-            datadogAlertedAt: run.datadog_alerted_at
-              ? new Date(run.datadog_alerted_at)
-              : null,
-            webhookReceivedAt: run.webhook_received_at
-              ? new Date(run.webhook_received_at)
-              : null,
-            caseCreatedAt: run.case_created_at
-              ? new Date(run.case_created_at)
-              : null,
-          });
-          setState('detected');
-        } else {
-          setTimeout(() => poll(runId), POLL_INTERVAL_MS);
-        }
-      })
-      .catch(() => setState('error'));
+    try {
+      const r = await fetch(`/api/scenario-runs/${runId}`);
+      const run = (await r.json()) as ScenarioRunResponse;
+
+      // Update timeline on every poll:
+      // - datadogReceivedAt fills in within seconds of trigger (Datadog log ingestion)
+      // - datadogAlertedAt + caseCreatedAt fill in together when the monitor fires (~1 min)
+      setTimeline((prev) => ({
+        errorLoggedAt: prev?.errorLoggedAt ?? new Date(run.triggered_at),
+        datadogReceivedAt: run.error_logged_at
+          ? new Date(run.error_logged_at)
+          : null,
+        datadogAlertedAt: run.datadog_alerted_at
+          ? new Date(run.datadog_alerted_at)
+          : null,
+        caseCreatedAt: run.case_created_at
+          ? new Date(run.case_created_at)
+          : null,
+      }));
+
+      if (run.status === 'detected') {
+        setState('detected');
+      } else {
+        setTimeout(() => { poll(runId).catch(() => setState('error')); }, POLL_INTERVAL_MS);
+      }
+    } catch {
+      setState('error');
+    }
   };
 
   const trigger = async () => {
@@ -204,12 +212,12 @@ const ScenarioModal: React.FC<ScenarioModalProps> = ({ onClose }) => {
       // Seed step 1 immediately from triggered_at
       setTimeline({
         errorLoggedAt: new Date(run.triggered_at),
+        datadogReceivedAt: null,
         datadogAlertedAt: null,
-        webhookReceivedAt: null,
         caseCreatedAt: null,
       });
       setState('polling');
-      setTimeout(() => poll(run.id), POLL_INTERVAL_MS);
+      setTimeout(() => { poll(run.id).catch(() => setState('error')); }, POLL_INTERVAL_MS);
     } catch {
       setState('error');
     }
@@ -308,18 +316,18 @@ const ScenarioModal: React.FC<ScenarioModalProps> = ({ onClose }) => {
                   />
                   <TimelineStep
                     index={1}
-                    label="Datadog detected"
-                    sublabel="Log alert monitor triggered"
-                    time={timeline.datadogAlertedAt}
+                    label="Datadog received"
+                    sublabel="Log ingested by Datadog"
+                    time={timeline.datadogReceivedAt}
                     isFirst={false}
                     referenceTime={timeline.errorLoggedAt}
                     isPending={state === 'polling'}
                   />
                   <TimelineStep
                     index={2}
-                    label="Operate notified"
-                    sublabel="Webhook received by Operate"
-                    time={timeline.webhookReceivedAt}
+                    label="Datadog alerted Operate"
+                    sublabel="Monitor fired — may take up to 60s"
+                    time={timeline.datadogAlertedAt}
                     isFirst={false}
                     referenceTime={timeline.errorLoggedAt}
                     isPending={state === 'polling'}
@@ -405,9 +413,7 @@ const ScenarioModal: React.FC<ScenarioModalProps> = ({ onClose }) => {
                 <span />
               )}
               <button
-                onClick={() => {
-                  trigger().catch(() => undefined);
-                }}
+                onClick={() => { trigger().catch(() => setState('error')); }}
                 disabled={state === 'triggering'}
                 className={clsx(
                   'rounded-lg px-4 py-2 text-[12px] font-medium transition-colors',

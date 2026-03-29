@@ -24,6 +24,17 @@ class ScenarioRunReader:
             raise ScenarioRunRecordNotFoundError()
 
         if run.status == ScenarioRunStatus.PENDING:
+            # Fetch the Datadog log ingestion timestamp on every poll so step 1 of the
+            # timeline fills in quickly (seconds after trigger) even while waiting for
+            # the monitor to fire. Store it so the response always includes it.
+            error_logged_at = ScenarioRunReader._fetch_datadog_log_timestamp(
+                run.correlation_id, run.triggered_at
+            )
+            # Only persist if we got a real Datadog timestamp (not just the fallback)
+            if error_logged_at != run.triggered_at and run.error_logged_at != error_logged_at:
+                ScenarioRunWriter.update_error_logged_at(run.id, error_logged_at)
+                run = ScenarioRunRepository.find_by_id(run_id)
+
             operate_db_uri = ConfigService[str].get_value("operate.db_uri")
             operate_db = MongoClient(operate_db_uri).get_default_database()
             doc = operate_db["cases"].find_one({"title": {"$regex": re.escape(run.correlation_id)}})
@@ -46,8 +57,6 @@ class ScenarioRunReader:
                         except ValueError:
                             pass
 
-                error_logged_at = ScenarioRunReader._fetch_datadog_log_timestamp(run.correlation_id, run.triggered_at)
-
                 run = ScenarioRunWriter.mark_detected(
                     run.id,
                     operate_case_id=str(doc["_id"]),
@@ -60,7 +69,7 @@ class ScenarioRunReader:
         return run
 
     @staticmethod
-    def _fetch_datadog_log_timestamp(correlation_id: str, fallback: datetime) -> Optional[datetime]:
+    def _fetch_datadog_log_timestamp(correlation_id: str, fallback: datetime) -> datetime:
         """Query Datadog Logs API for the exact ingestion time of the error log containing correlation_id."""
         try:
             api_key = ConfigService[str].get_value("datadog.api_key")
@@ -71,7 +80,6 @@ class ScenarioRunReader:
 
         try:
             now = datetime.now(timezone.utc)
-            # Search up to 30 minutes back from now to cover slow Datadog ingestion
             from_time = fallback - timedelta(minutes=2)
             headers = {
                 "DD-API-KEY": api_key,
