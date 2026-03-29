@@ -16,8 +16,8 @@ type ScenarioDef = {
 
 const scenarios: ScenarioDef[] = [
   {
-    id: 'silent-failure',
-    category: 'Proactive log monitoring',
+    id: 'proactive-error-monitoring',
+    category: 'Proactive error monitoring',
     type: 'Example scenario',
     title: 'Errors are appearing in logs. Nobody has noticed yet.',
     description:
@@ -51,7 +51,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="min-h-dvh bg-white font-sans text-slate-900 antialiased">
-      {activeModal === 'silent-failure' && (
+      {activeModal === 'proactive-error-monitoring' && (
         <ScenarioModal onClose={() => setActiveModal(null)} />
       )}
 

@@ -37,7 +37,16 @@ doppler secrets download --project operate-demo --config preview --no-file --for
 
 > **Need Doppler access?** Ping the `#platform` channel to get added to the `operate-demo` project.
 
-This gives you the Datadog keys needed for local log shipping. No other env vars are required for operate-demo itself.
+This gives you the Datadog keys needed for local log shipping. You also need to add one additional var:
+
+```bash
+# URI of the Operate MongoDB database. operate-demo uses this to check whether Operate
+# has detected a case after a scenario is triggered, so the UI can show live feedback.
+# In local dev, Operate's DB runs on port 27017 inside Docker and is exposed via host.docker.internal.
+OPERATE_DB_URI=mongodb://host.docker.internal:27017/operate-dev
+```
+
+> In preview and production this is already set via Doppler (`OPERATE_DB_URI`) — no additional setup needed there.
 
 ### 2. Set up Operate's environment
 

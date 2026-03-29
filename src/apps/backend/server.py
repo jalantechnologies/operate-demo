@@ -11,7 +11,7 @@ from modules.application.worker_registry import WorkerRegistry
 from modules.authentication.rest_api.authentication_rest_api_server import AuthenticationRestApiServer
 from modules.config.config_service import ConfigService
 from modules.logger.logger_manager import LoggerManager
-from modules.scenario.rest_api.scenario_rest_api_server import ScenarioRestApiServer
+from modules.scenario_run.rest_api.scenario_run_rest_api_server import ScenarioRunRestApiServer
 from modules.task.rest_api.task_rest_api_server import TaskRestApiServer
 from scripts.bootstrap_app import BootstrapApp
 
@@ -49,9 +49,9 @@ api_blueprint.register_blueprint(account_blueprint)
 task_blueprint = TaskRestApiServer.create()
 api_blueprint.register_blueprint(task_blueprint)
 
-# Register scenario apis
-scenario_blueprint = ScenarioRestApiServer.create()
-api_blueprint.register_blueprint(scenario_blueprint)
+# Register scenario run apis
+scenario_run_blueprint = ScenarioRunRestApiServer.create()
+api_blueprint.register_blueprint(scenario_run_blueprint)
 
 app.register_blueprint(api_blueprint)
 

@@ -2,14 +2,14 @@ import secrets
 import uuid
 
 from modules.logger.logger import Logger
-from modules.scenario.errors import ScenarioNotFoundError
-from modules.scenario.types import ScenarioId, TriggerScenarioParams, TriggerScenarioResult
+from modules.scenario_run.errors import ScenarioRunNotFoundError
+from modules.scenario_run.types import ScenarioRunType
 
 # Realistic error log templates for a generic email notification pipeline.
-# Each entry simulates a silent failure where the API returns 200 but the email never delivers.
-_SILENT_FAILURE_MESSAGES = [
+# Each entry simulates a delivery failure detected by proactive monitoring.
+_TEMPLATES = [
     (
-        "NotificationDispatchWorker: email delivery silently dropped "
+        "NotificationDispatchWorker: email delivery failed "
         "[job_id={job_id}, user_id={user_id}] — "
         "SMTP relay accepted the message (250 OK) but bounce record written 4 s later; "
         "no alert configured on soft-bounce queue"
@@ -18,7 +18,7 @@ _SILENT_FAILURE_MESSAGES = [
         "EmailQueueWorker: outbound message enqueued but never dequeued "
         "[job_id={job_id}, user_id={user_id}] — "
         "queue depth 0 after flush, message_id={message_id} missing from sent log; "
-        "downstream consumer silently exited without error"
+        "downstream consumer exited without error"
     ),
     (
         "NotificationWorker: email notification for user_id={user_id} "
@@ -34,33 +34,30 @@ _SILENT_FAILURE_MESSAGES = [
     ),
     (
         "ScheduledNotificationWorker: follow-up email to user_id={user_id} "
-        "silently discarded — SPF check failed for envelope sender, "
+        "dropped — SPF check failed for envelope sender, "
         "receiving MTA issued 550 after DATA phase but connection already closed; "
         "job_id={job_id}, no DeliveryFailure event emitted"
     ),
 ]
 
 
-class ScenarioService:
+class ScenarioRunTrigger:
     @staticmethod
-    def trigger_scenario(*, params: TriggerScenarioParams) -> TriggerScenarioResult:
-        if params.scenario_id == ScenarioId.SILENT_FAILURE:
-            return ScenarioService._trigger_silent_failure()
-
-        raise ScenarioNotFoundError(scenario_id=params.scenario_id)
+    def run(scenario_run_type: ScenarioRunType) -> str:
+        if scenario_run_type == ScenarioRunType.PROACTIVE_ERROR_MONITORING:
+            return ScenarioRunTrigger._silent_failure()
+        raise ScenarioRunNotFoundError(scenario_run_type=scenario_run_type.value)
 
     @staticmethod
-    def _trigger_silent_failure() -> TriggerScenarioResult:
-        template = secrets.choice(_SILENT_FAILURE_MESSAGES)
+    def _silent_failure() -> str:
+        job_id = f"job_{uuid.uuid4().hex[:8]}"
+        template = secrets.choice(_TEMPLATES)
         message = template.format(
-            job_id=f"job_{uuid.uuid4().hex[:8]}",
+            job_id=job_id,
             user_id=f"user_{uuid.uuid4().hex[:8]}",
             message_id=f"msg_{uuid.uuid4().hex[:12]}",
             correlation_id=str(uuid.uuid4()),
         )
-
         Logger.error(message=message)
-
-        return TriggerScenarioResult(
-            scenario_id=ScenarioId.SILENT_FAILURE, message="Scenario triggered — error logged to Datadog."
-        )
+        # job_id is the correlation ID — embedded in the log and will appear in the case title
+        return job_id
