@@ -46,12 +46,20 @@ jobs:
 
   sonarqube:
     if: github.event.pull_request.state == 'open' && github.event.pull_request.draft == false
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
         with:
           fetch-depth: 0
+
+      - name: Download coverage report
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
+        with:
+          name: coverage-report
+          path: output
+        continue-on-error: true
 
       - name: Get github-ci version
         id: ci_version
@@ -70,13 +78,30 @@ jobs:
           ref: ${{ steps.ci_version.outputs.version }}
 
       - name: Run SonarQube analysis
+        id: sonar_analysis
         uses: ./platform/.github/actions/analyze
+        continue-on-error: true
         with:
           sonar_host_url: ${{ vars.SONAR_HOST_URL }}
           sonar_token: ${{ secrets.SONAR_TOKEN }}
           branch: ${{ github.head_ref }}
           branch_base: main
           pull_request_number: ${{ github.event.number }}
+
+      - name: Fetch quality gate details
+        if: steps.sonar_analysis.outcome == 'failure'
+        run: |
+          curl -s -u "${{ secrets.SONAR_TOKEN }}:" \
+            "${{ vars.SONAR_HOST_URL }}/api/qualitygates/project_status?projectKey=jalantechnologies_flask-react-template&pullRequest=${{ github.event.number }}" \
+            | python3 -m json.tool || true
+          echo "--- New Bugs and Code Smells in PR ---"
+          curl -s -u "${{ secrets.SONAR_TOKEN }}:" \
+            "${{ vars.SONAR_HOST_URL }}/api/issues/search?componentKeys=jalantechnologies_flask-react-template&pullRequest=${{ github.event.number }}&types=BUG,CODE_SMELL&ps=20" \
+            | python3 -c "import sys,json;d=json.load(sys.stdin);print('total:',d.get('total'));[print(i.get('rule'),i.get('severity'),i.get('status'),i.get('component'),'line:',i.get('line'),'|',i.get('message')) for i in d.get('issues',[])]" || true
+
+      - name: Fail if SonarQube analysis failed
+        if: steps.sonar_analysis.outcome == 'failure'
+        run: exit 1
 
   scan:
     if: github.event.pull_request.state == 'open' && github.event.pull_request.draft == false
@@ -279,6 +304,14 @@ jobs:
             docker compose -f docker-compose.test.yml cp app:/app/output/coverage.xml output/coverage.xml || echo "coverage.xml not found in app container"
           fi
 
+      - name: Fix coverage report paths for SonarQube
+        if: always()
+        run: |
+          if [ -f output/coverage.xml ]; then
+            sed -i 's|/app/||g' output/coverage.xml
+            echo "Coverage paths fixed for SonarQube"
+          fi
+
       - name: Validate coverage excludes test files
         run: |
           if [ -f output/coverage.xml ]; then
@@ -315,3 +348,12 @@ jobs:
         with:
           recreate: true
           path: code-coverage-results.md
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b
+        with:
+          name: coverage-report
+          path: output/coverage.xml
+          if-no-files-found: ignore
+          retention-days: 1
